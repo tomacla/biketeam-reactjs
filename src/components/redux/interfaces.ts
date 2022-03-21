@@ -21,7 +21,6 @@ export interface TeamSocial {
 }
 
 export interface TeamContact {
-
   email?: string,
   phoneNumber?: string,
   addressStreetLine?: string,
@@ -37,8 +36,9 @@ export interface Team {
   country: string,
   createdAt: string,
   visibility: TeamVisibility,
-  social: TeamSocial
+  social: TeamSocial,
   contact: TeamContact,
-  heatmap: boolean
+  heatmap: boolean,
+  img?: string,
   other?: any,
 }

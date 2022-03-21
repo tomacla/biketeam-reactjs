@@ -22,7 +22,7 @@ const actionsSlice = createSlice({
 
 export const actions = {
   ...actionsSlice.actions,
-  getTeamsAsync
+  getTeamsAsync,
 };
 
 const { reducer } = actionsSlice;
