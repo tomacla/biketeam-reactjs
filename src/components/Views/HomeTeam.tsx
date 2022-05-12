@@ -1,20 +1,12 @@
 import { useCurrentStateAndParams } from '@uirouter/react';
 import { FC, memo, useEffect } from 'react';
-import { Container } from 'react-bootstrap';
-import styled from 'styled-components';
 import { Team, TeamMember } from '../../redux/interfaces';
 import { selectTeamDetails, selectTeamMembers } from '../../redux/selectors';
 import { actions, useActionsDispatch } from '../../redux/store';
 import { useMemoizedSelector } from '../../redux/useMemoizedSelector';
+import Details from '../Team/Details';
 import Members from '../Team/Members';
-
-const HomeTeamContainer = styled(Container)`
- min-height: calc(100vh - 104px);
-display: flex;
-align-items: center;
-flex-direction: column;
-`
-
+import { ViewContainer } from './common';
 interface HomeTeamPropsResults {
   members: TeamMember[];
   team?: Team;
@@ -41,11 +33,11 @@ const useHomeTeamProps = (): HomeTeamPropsResults => {
 
 const HomeTeam: FC = () => {
   const { team, members } = useHomeTeamProps();
-  return (
-    <HomeTeamContainer>
-      <div> HomeTeam - {team ? team.name : 'NOP'}</div>
+  return (team ? (
+    <ViewContainer>
+      <Details name={team.name} description={team.description} teamId={team.id} onJoinTeam={() => { }} />
       <Members members={members} />
-    </HomeTeamContainer>
+    </ViewContainer>) : (<>{'NOP'}</>)
   )
 }
 

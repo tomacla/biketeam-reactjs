@@ -57,7 +57,6 @@ export interface Team {
   social: TeamSocial;
   contact: TeamContact;
   heatmap: boolean;
-  img?: string;
   other?: any;
 }
 

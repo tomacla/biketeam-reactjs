@@ -2,7 +2,7 @@ import { useSref } from '@uirouter/react';
 import { FC, memo } from 'react';
 import { Card } from 'react-bootstrap';
 import styled from 'styled-components';
-import { API_URL } from '../Views/constants';
+import { API_URL } from '../common/constants';
 
 const TeamCardContainer = styled(Card)`
 display: flex;  
