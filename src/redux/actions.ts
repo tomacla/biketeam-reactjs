@@ -27,3 +27,11 @@ export async function getCountries(): Promise<Country[]> {
   const { data: countries } = await axios.get(`${API_URL}/data/countries`, config);
   return countries;
 }
+
+export async function getTeamDetails(teamId: string): Promise<Team> {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+  const { data: team } = await axios.get(`${API_URL}/teams/${teamId}`, config);
+  return team;
+}
