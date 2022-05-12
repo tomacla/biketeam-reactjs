@@ -7,9 +7,15 @@ export interface BikeTeamState {
 export interface BikeTeamStateEntitiesData {
   countries: Country[];
 }
+
+export interface BikeTeamStateEntitiesTeam {
+  members: string[]; //TODO
+  details?: Team;
+}
 export interface BikeTeamStateEntities {
   teams: Team[];
   data: BikeTeamStateEntitiesData;
+  team: BikeTeamStateEntitiesTeam;
 }
 
 export interface BikeTeamStateUi {}

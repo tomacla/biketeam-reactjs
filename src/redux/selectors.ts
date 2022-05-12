@@ -7,3 +7,7 @@ export function selectTeams(state: BikeTeamState): Team[] {
 export function selectCountries(state: BikeTeamState): Country[] {
   return state.entities.data.countries;
 }
+
+export function selectTeamDetails(state: BikeTeamState): Team | undefined {
+  return state.entities.team.details;
+}
