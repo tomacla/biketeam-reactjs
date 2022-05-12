@@ -11,7 +11,8 @@ margin-bottom: 8px;
 `;
 
 const TeamLogo = styled.img`
-width: 64px;
+width: 100%;
+height: auto;
 margin-bottom: 8px;
 `;
 

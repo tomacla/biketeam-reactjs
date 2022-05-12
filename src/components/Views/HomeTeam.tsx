@@ -1,5 +1,7 @@
 import { useCurrentStateAndParams } from '@uirouter/react';
 import { FC, memo, useEffect } from 'react';
+import { Row, Col } from 'react-bootstrap';
+import styled from 'styled-components';
 import { Team, TeamMember } from '../../redux/interfaces';
 import { selectTeamDetails, selectTeamMembers } from '../../redux/selectors';
 import { actions, useActionsDispatch } from '../../redux/store';
@@ -7,6 +9,23 @@ import { useMemoizedSelector } from '../../redux/useMemoizedSelector';
 import Details from '../Team/Details';
 import Members from '../Team/Members';
 import { ViewContainer } from './common';
+
+const Layout = styled(Row)`
+width: 100%;
+`;
+
+const LeftCol = styled(Col).attrs({
+  xs: '12',
+  md: '4'
+})`
+`
+
+const RightCol = styled(Col).attrs({
+  xs: '12',
+  md: '8'
+})`
+`
+
 interface HomeTeamPropsResults {
   members: TeamMember[];
   team?: Team;
@@ -35,8 +54,16 @@ const HomeTeam: FC = () => {
   const { team, members } = useHomeTeamProps();
   return (team ? (
     <ViewContainer>
-      <Details name={team.name} description={team.description} teamId={team.id} onJoinTeam={() => { }} />
-      <Members members={members} />
+      <Layout>
+        <LeftCol>
+          <Details name={team.name} description={team.description} teamId={team.id} onJoinTeam={() => { }} />
+          <Members members={members} />
+        </LeftCol>
+        <RightCol>
+          <div>Feed</div>
+        </RightCol>
+      </Layout>
+
     </ViewContainer>) : (<>{'NOP'}</>)
   )
 }

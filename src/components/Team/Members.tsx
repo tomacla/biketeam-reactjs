@@ -7,7 +7,7 @@ import Member from './Member';
 
 const MemberList = styled.div`
 display:flex;
-flex-direction: row;
+flex-flow: row wrap;
 gap: 8px 8px;
 `;
 
