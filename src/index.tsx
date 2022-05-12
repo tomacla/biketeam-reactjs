@@ -8,15 +8,17 @@ import StoreProvider from './redux/StoreProvider';
 import { pushStateLocationPlugin, UIRouter } from '@uirouter/react';
 import Home from './components/Views/Home';
 import Teams from './components/Views/Teams';
+import HomeTeam from './components/Views/HomeTeam';
 
 const homeState = { name: 'home', url: '/', component: Home };
-const teamState = { name: 'teams', url: '/teams', component: Teams };
+const teamsState = { name: 'teams', url: '/teams', component: Teams };
+const homeTeamState = { name: 'homeTeam', url: '/{teamId:string}', component: HomeTeam };
 
 ReactDOM.render(
   <React.StrictMode>
     <StoreProvider>
       <UIRouter plugins={[pushStateLocationPlugin]}
-        states={[homeState, teamState]} >
+        states={[homeState, teamsState, homeTeamState]} >
         <App />
       </UIRouter>
     </StoreProvider >
