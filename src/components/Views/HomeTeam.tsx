@@ -56,7 +56,10 @@ const HomeTeam: FC = () => {
     <ViewContainer>
       <Layout>
         <LeftCol>
-          <Details name={team.name} description={team.description} teamId={team.id} onJoinTeam={() => { }} />
+          <Details
+            team={team}
+            onJoinTeam={() => { }}
+          />
           <Members members={members} />
         </LeftCol>
         <RightCol>
