@@ -10,6 +10,7 @@ export interface BikeTeamStateEntitiesData {
 
 export interface BikeTeamStateEntitiesTeam {
   members: TeamMember[];
+  events: TeamEvent[];
   details?: Team;
 }
 export interface BikeTeamStateEntities {
@@ -30,6 +31,22 @@ export type TeamMemberApi = {
 export type TeamMember = {
   name: string;
   image: string;
+};
+
+export type EventType = 'RIDE' | 'TRIP' | 'PUBLICATION';
+
+export type TeamEvent = {
+  id: string;
+  permalink: string; // ?
+  teamId: string;
+  teamName: string;
+  type: EventType;
+  publishedAt: Date; // TO CHANGE
+  title: string;
+  date: Date;
+  content: string;
+  badges: string[];
+  imaged: boolean;
 };
 
 export interface TeamSocial {
