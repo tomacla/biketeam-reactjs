@@ -9,7 +9,7 @@ export interface BikeTeamStateEntitiesData {
 }
 
 export interface BikeTeamStateEntitiesTeam {
-  members: string[]; //TODO
+  members: TeamMember[];
   details?: Team;
 }
 export interface BikeTeamStateEntities {
@@ -21,6 +21,16 @@ export interface BikeTeamStateEntities {
 export interface BikeTeamStateUi {}
 
 export type TeamVisibility = 'PUBLIC' | 'PRIVATE';
+
+export type TeamMemberApi = {
+  identity: string;
+  profileImage: string;
+};
+
+export type TeamMember = {
+  name: string;
+  image: string;
+};
 
 export interface TeamSocial {
   facebook?: string;
@@ -47,7 +57,6 @@ export interface Team {
   social: TeamSocial;
   contact: TeamContact;
   heatmap: boolean;
-  img?: string;
   other?: any;
 }
 
