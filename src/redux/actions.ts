@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Country, Team } from './interfaces';
+import { Country, Team, TeamMemberApi } from './interfaces';
 
 const API_URL = 'https://staging.biketeam.info/api';
 const DEFAULT_PAGE_SIZE = '10';
@@ -34,4 +34,12 @@ export async function getTeamDetails(teamId: string): Promise<Team> {
   };
   const { data: team } = await axios.get(`${API_URL}/teams/${teamId}`, config);
   return team;
+}
+
+export async function getTeamMembers(teamId: string): Promise<TeamMemberApi[]> {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+  const { data: members } = await axios.get(`${API_URL}/teams/${teamId}/members`, config);
+  return members;
 }

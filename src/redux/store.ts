@@ -1,6 +1,6 @@
 import { configureStore, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import { getCountries, getTeamDetails, getTeams } from './actions';
+import { getCountries, getTeamDetails, getTeamMembers, getTeams } from './actions';
 import { INITIAL_BIKETEAM_STATE } from './constants';
 import {
   onGetCountriesFullfilled,
@@ -9,6 +9,9 @@ import {
   onGetTeamDetailsFullfilled,
   onGetTeamDetailsPending,
   onGetTeamDetailsRejected,
+  onGetTeamMembersFullfilled,
+  onGetTeamMembersPending,
+  onGetTeamMembersRejected,
   onGetTeamsFullfilled,
   onGetTeamsPending,
   onGetTeamsRejected,
@@ -23,6 +26,9 @@ const getTeamsAsync = createAsyncThunk(
 const getCountriesAsync = createAsyncThunk('getCountries', getCountries);
 const getTeamDetailsAsync = createAsyncThunk('getTeamDetails', ({ teamId }: { teamId: string }) =>
   getTeamDetails(teamId)
+);
+const getTeamMembersAsync = createAsyncThunk('getTeamMembers', ({ teamId }: { teamId: string }) =>
+  getTeamMembers(teamId)
 );
 
 const actionsSlice = createSlice({
@@ -39,7 +45,10 @@ const actionsSlice = createSlice({
       .addCase(getCountriesAsync.rejected, onGetCountriesRejected)
       .addCase(getTeamDetailsAsync.fulfilled, onGetTeamDetailsFullfilled)
       .addCase(getTeamDetailsAsync.pending, onGetTeamDetailsPending)
-      .addCase(getTeamDetailsAsync.rejected, onGetTeamDetailsRejected),
+      .addCase(getTeamDetailsAsync.rejected, onGetTeamDetailsRejected)
+      .addCase(getTeamMembersAsync.fulfilled, onGetTeamMembersFullfilled)
+      .addCase(getTeamMembersAsync.pending, onGetTeamMembersPending)
+      .addCase(getTeamMembersAsync.rejected, onGetTeamMembersRejected),
 });
 
 export const actions = {
@@ -47,6 +56,7 @@ export const actions = {
   getTeamsAsync,
   getCountriesAsync,
   getTeamDetailsAsync,
+  getTeamMembersAsync,
 };
 
 const { reducer } = actionsSlice;

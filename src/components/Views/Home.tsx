@@ -1,17 +1,15 @@
 import { useSref } from '@uirouter/react';
 import React, { FC, memo } from 'react';
-import { Button, Container } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { selectTeams } from '../../redux/selectors';
 import { useLoadTeams } from '../common/hooks';
 import TeamList from '../Teams/TeamList';
+import { ViewContainer } from './common';
 
-const HomeContainer = styled(Container)`
- min-height: calc(100vh - 104px);
-display: flex;
-align-items: center;
-flex-direction: column;
+const HomeContainer = styled(ViewContainer)`
+
 `
 
 const List = styled.ul`
