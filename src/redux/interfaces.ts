@@ -57,7 +57,7 @@ export interface Team {
   social: TeamSocial;
   contact: TeamContact;
   heatmap: boolean;
-  other?: any;
+  other?: string;
 }
 
 export interface Country {
