@@ -61,12 +61,12 @@ const HomeTeam: FC = () => {
             onJoinTeam={() => { }}
           />
           <Members members={members} />
+          {/* TODO: Add heatmap */}
         </LeftCol>
         <RightCol>
           <div>Feed</div>
         </RightCol>
       </Layout>
-
     </ViewContainer>) : (<>{'NOP'}</>)
   )
 }
