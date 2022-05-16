@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { getCountries, getTeamDetails, getTeamEvents, getTeamMembers, getTeams } from './actions';
 import { INITIAL_BIKETEAM_STATE } from './constants';
 import {
+  onClearTeamDetails,
   onGetCountriesFullfilled,
   onGetCountriesPending,
   onGetCountriesRejected,
@@ -38,7 +39,9 @@ const getTeamEventsAsync = createAsyncThunk('getTeamEvents', ({ teamId }: { team
 const actionsSlice = createSlice({
   name: 'actions',
   initialState: INITIAL_STATE,
-  reducers: {},
+  reducers: {
+    clearTeamDetails: onClearTeamDetails,
+  },
   extraReducers: builder =>
     builder
       .addCase(getTeamsAsync.pending, onGetTeamsPending)

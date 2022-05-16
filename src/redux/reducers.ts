@@ -18,6 +18,9 @@ export function onGetTeamDetailsRejected(): void {}
 export function onGetTeamDetailsFullfilled(state: BikeTeamState, { payload: team }: PayloadAction<Team>): void {
   state.entities.team.details = team;
 }
+export function onClearTeamDetails(state: BikeTeamState): void {
+  state.entities.team.details = undefined;
+}
 
 export function onGetTeamMembersPending(): void {}
 export function onGetTeamMembersRejected(): void {}

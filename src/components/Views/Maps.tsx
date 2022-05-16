@@ -1,11 +1,11 @@
 import React, { FC, memo } from 'react';
 import { ViewContainer } from './common';
 
-const Trip: FC = () => {
+const Maps: FC = () => {
   return (
     <ViewContainer>
-      TODO: Trip
+      TODO: Maps
     </ViewContainer>)
 }
 
-export default memo(Trip);
+export default memo(Maps);
