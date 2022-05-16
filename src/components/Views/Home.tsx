@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { selectTeams } from '../../redux/selectors';
 import { actions, useActionsDispatch } from '../../redux/store';
+import { DEFAULT_TITLE } from '../common/constants';
 import { useLoadTeams } from '../common/hooks';
 import TeamList from '../Teams/TeamList';
 import { ViewContainer } from './common';
@@ -44,10 +45,11 @@ const Home: FC = () => {
   const dispatch = useActionsDispatch()
   const teams = useSelector(selectTeams);
   const goToTeams = useSref('teams');
-  const PAGE_SIZE = '4'
+  const PAGE_SIZE = '4';
   useLoadTeams(PAGE_SIZE);
   useEffect(() => {
     dispatch(actions.clearTeamDetails())
+    document.title = DEFAULT_TITLE;
   }, [dispatch])
   return (
     <HomeContainer>

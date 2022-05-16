@@ -5,11 +5,22 @@ import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import styled from 'styled-components';
 
 const Title = styled.h1`
+&:before{
+  content:'bike';
+  font-weight: 600;
+
+}
 text-transform: uppercase;
 font-size: 20px;
 font-weight: 500;
 margin: 8px 0 8px 0;
+&:after{
+  content:'team';
+  font-weight: 400;
+  color: #6c757d;
+}
 `
+
 const NavTitle = styled(Navbar.Brand)`
 padding: 0;
 `
@@ -43,9 +54,7 @@ const Header: FC<HeaderProps> = ({ onGoHome, selectedTeamId, onGoFeed, onGoMaps,
     <Navbar bg="light">
       <Container>
         <NavTitle {...onGoHome}>
-          <Title>
-            BikeTeam
-          </Title>
+          <Title />
         </NavTitle>
         <Nav className="ms-auto align-items-center">
           {

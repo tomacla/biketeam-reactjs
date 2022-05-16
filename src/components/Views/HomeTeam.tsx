@@ -6,6 +6,7 @@ import { Team, TeamEvent, TeamMember } from '../../redux/interfaces';
 import { selectTeamDetails, selectTeamEvents, selectTeamMembers } from '../../redux/selectors';
 import { actions, useActionsDispatch } from '../../redux/store';
 import { useMemoizedSelector } from '../../redux/useMemoizedSelector';
+import { DEFAULT_TITLE } from '../common/constants';
 import Details from '../Team/Details';
 import Events from '../Team/Events';
 import Members from '../Team/Members';
@@ -48,6 +49,9 @@ const useHomeTeamProps = (): HomeTeamPropsResults => {
   const team = useMemoizedSelector(selectTeamDetails);
   const members = useMemoizedSelector(selectTeamMembers);
   const events = useMemoizedSelector(selectTeamEvents);
+  useEffect(() => {
+    document.title = team ? team.name : DEFAULT_TITLE;
+  })
   return {
     team,
     members,
