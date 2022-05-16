@@ -5,14 +5,14 @@ const API_URL = 'https://staging.biketeam.info/api';
 const DEFAULT_PAGE_SIZE = '10';
 const DEFAULT_PAGE = '0';
 
-export async function getTeams(name?: string, city?: string, country?: string): Promise<Team[]> {
+export async function getTeams(name?: string, city?: string, country?: string, pageSize?: string): Promise<Team[]> {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     params: {
       name: name,
       city: city,
       country: country,
-      pageSize: DEFAULT_PAGE_SIZE,
+      pageSize: pageSize || DEFAULT_PAGE_SIZE,
       page: DEFAULT_PAGE,
     },
   };

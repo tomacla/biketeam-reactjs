@@ -25,7 +25,8 @@ const INITIAL_STATE = INITIAL_BIKETEAM_STATE;
 
 const getTeamsAsync = createAsyncThunk(
   'getTeamsAsync',
-  ({ name, city, country }: { name?: string; city?: string; country?: string }) => getTeams(name, city, country)
+  ({ name, city, country, pageSize }: { name?: string; city?: string; country?: string; pageSize?: string }) =>
+    getTeams(name, city, country, pageSize)
 );
 const getCountriesAsync = createAsyncThunk('getCountries', getCountries);
 const getTeamDetailsAsync = createAsyncThunk('getTeamDetails', ({ teamId }: { teamId: string }) =>

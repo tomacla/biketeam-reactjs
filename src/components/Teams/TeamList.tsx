@@ -20,7 +20,7 @@ width: 18rem;
 const TeamList: FC<TeamListProps> = ({ teams }) => {
   return (
     <TeamListContainer>
-      <Row xs={1} md={2} lg={3} className="g-4 justify-content-center" >
+      <Row xs={1} md={4} className="g-4 justify-content-center" >
         {
           teams.length > 0 ? (
             teams.map(({ id, name, city }) => (
