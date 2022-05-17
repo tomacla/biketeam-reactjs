@@ -8,7 +8,7 @@ import { actions, useActionsDispatch } from '../../redux/store';
 import { useMemoizedSelector } from '../../redux/useMemoizedSelector';
 import { DEFAULT_TITLE } from '../common/constants';
 import Details from '../Team/Details';
-import Events from '../Team/Events';
+import Events from '../Team/Event/EventList';
 import Members from '../Team/Members';
 import { ViewContainer } from './common';
 

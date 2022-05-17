@@ -1,14 +1,28 @@
 
-import { useSref } from '@uirouter/react';
-import React, { FC, memo } from 'react';
-import { useSelectedTeamId } from '../redux/selectors';
+import { useCurrentStateAndParams, useSref } from '@uirouter/react';
+import React, { FC, memo, useEffect } from 'react';
+import { selecteCurrentTeamId } from '../redux/selectors';
+import { actions, useActionsDispatch } from '../redux/store';
 import { useMemoizedSelector } from '../redux/useMemoizedSelector';
-
 import Header from './Header';
 
 
+function useTeamId(): string{
+  const dispatch = useActionsDispatch()
+  const {
+    params: { teamId },
+  } = useCurrentStateAndParams();
+  const teamIdFromState = useMemoizedSelector(selecteCurrentTeamId);
+  useEffect(()=> {
+    if (!teamIdFromState && teamId) {
+      dispatch(actions.getTeamDetailsAsync({ teamId }));
+    }
+  }, [dispatch, teamId, teamIdFromState])
+  return teamId || teamIdFromState;
+}
+
 const HeaderContainer: FC = () => {
-  const teamId = useMemoizedSelector(useSelectedTeamId);
+  const teamId = useTeamId();
   const handleGoHome = useSref('home');
   const handleGoFeed = useSref('homeTeam', { teamId: teamId });
   const handleGoTrips = useSref('trips', { teamId: teamId });

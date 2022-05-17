@@ -6,7 +6,7 @@ import { selectCountries, selectTeams } from '../../redux/selectors';
 import { actions, useActionsDispatch } from '../../redux/store';
 import { useMemoizedSelector } from '../../redux/useMemoizedSelector';
 import { SubmitFormHandler } from '../Teams/interfaces';
-import TeamsForm from '../Teams/TeamsForm';
+import TeamFilterForm from '../Teams/TeamFilterForm';
 import { useLoadTeams } from '../common/hooks';
 import { ViewContainer } from './common';
 
@@ -51,7 +51,7 @@ const Teams: FC = () => {
   return (
     <ViewContainer>
       <TeamFormContainer>
-        <TeamsForm onSubmit={handleSubmitForm} countries={countries} />
+        <TeamFilterForm onSubmit={handleSubmitForm} countries={countries} />
       </TeamFormContainer>
       <TeamList teams={teams} />
     </ViewContainer>

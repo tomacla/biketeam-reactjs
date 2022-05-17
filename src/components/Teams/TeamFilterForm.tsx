@@ -18,7 +18,7 @@ interface TeamFormProps {
   onSubmit: SubmitFormHandler
 }
 
-const TeamsForm: FC<TeamFormProps> = ({ onSubmit, countries }) => {
+const TeamFilterForm: FC<TeamFormProps> = ({ onSubmit, countries }) => {
   return (
     <Container>
       <Form onSubmit={onSubmit}>
@@ -55,4 +55,4 @@ const TeamsForm: FC<TeamFormProps> = ({ onSubmit, countries }) => {
   )
 }
 
-export default memo(TeamsForm);
+export default memo(TeamFilterForm);
