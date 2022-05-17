@@ -7,14 +7,47 @@ export interface BikeTeamState {
 export interface BikeTeamStateEntitiesData {
   countries: Country[];
 }
+
+export interface BikeTeamStateEntitiesTeam {
+  members: TeamMember[];
+  events: TeamEvent[];
+  details?: Team;
+}
 export interface BikeTeamStateEntities {
   teams: Team[];
   data: BikeTeamStateEntitiesData;
+  team: BikeTeamStateEntitiesTeam;
 }
 
 export interface BikeTeamStateUi {}
 
 export type TeamVisibility = 'PUBLIC' | 'PRIVATE';
+
+export type TeamMemberApi = {
+  identity: string;
+  profileImage: string;
+};
+
+export type TeamMember = {
+  name: string;
+  image: string;
+};
+
+export type EventType = 'RIDE' | 'TRIP' | 'PUBLICATION';
+
+export type TeamEvent = {
+  id: string;
+  permalink: string; // ?
+  teamId: string;
+  teamName: string;
+  type: EventType;
+  publishedAt: Date; // TO CHANGE
+  title: string;
+  date: Date;
+  content: string;
+  badges: string[];
+  imaged: boolean;
+};
 
 export interface TeamSocial {
   facebook?: string;
@@ -41,8 +74,7 @@ export interface Team {
   social: TeamSocial;
   contact: TeamContact;
   heatmap: boolean;
-  img?: string;
-  other?: any;
+  other?: string;
 }
 
 export interface Country {

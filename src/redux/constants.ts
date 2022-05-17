@@ -4,6 +4,11 @@ export const INITIAL_BIKETEAM_STATE: BikeTeamState = {
   entities: {
     teams: [],
     data: { countries: [] },
+    team: {
+      details: undefined,
+      members: [],
+      events: [],
+    },
   },
   ui: {},
 };
