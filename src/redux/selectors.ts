@@ -19,3 +19,7 @@ export function selectTeamMembers(state: BikeTeamState): TeamMember[] {
 export function selectTeamEvents(state: BikeTeamState): TeamEvent[] {
   return state.entities.team.events;
 }
+
+export function useSelectedTeamId(state: BikeTeamState): string | undefined {
+  return state.entities.team.details?.id;
+}

@@ -1,9 +1,11 @@
 import { useSref } from '@uirouter/react';
-import React, { FC, memo } from 'react';
+import React, { FC, memo, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { selectTeams } from '../../redux/selectors';
+import { actions, useActionsDispatch } from '../../redux/store';
+import { DEFAULT_TITLE } from '../common/constants';
 import { useLoadTeams } from '../common/hooks';
 import TeamList from '../Teams/TeamList';
 import { ViewContainer } from './common';
@@ -34,10 +36,21 @@ const Title = styled.h1`
 margin-top: 16px;
 `;
 
+const ExploreLink = styled.h6`
+margin-bottom: 24px;
+`;
+
 const Home: FC = () => {
+  //TODO: add hook
+  const dispatch = useActionsDispatch()
   const teams = useSelector(selectTeams);
   const goToTeams = useSref('teams');
-  useLoadTeams();
+  const PAGE_SIZE = '4';
+  useLoadTeams(PAGE_SIZE);
+  useEffect(() => {
+    dispatch(actions.clearTeamDetails())
+    document.title = DEFAULT_TITLE;
+  }, [dispatch])
   return (
     <HomeContainer>
       <Title>Un site unique pour les groupes de vélo</Title>
@@ -51,9 +64,8 @@ const Home: FC = () => {
       <Button variant="secondary">Créer mon groupe !</Button>
       <LineDivider />
       <h5>Déjà sur Biketeam</h5>
-      <h6><a {...goToTeams}>Explorer les groupes</a></h6>
+      <ExploreLink><a className='link-secondary' {...goToTeams}>Explorer les groupes</a></ExploreLink>
       <TeamList teams={teams} />
-      <LineDivider />
     </HomeContainer>)
 }
 

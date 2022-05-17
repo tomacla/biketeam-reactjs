@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { getCountries, getTeamDetails, getTeamEvents, getTeamMembers, getTeams } from './actions';
 import { INITIAL_BIKETEAM_STATE } from './constants';
 import {
+  onClearTeamDetails,
   onGetCountriesFullfilled,
   onGetCountriesPending,
   onGetCountriesRejected,
@@ -24,7 +25,8 @@ const INITIAL_STATE = INITIAL_BIKETEAM_STATE;
 
 const getTeamsAsync = createAsyncThunk(
   'getTeamsAsync',
-  ({ name, city, country }: { name?: string; city?: string; country?: string }) => getTeams(name, city, country)
+  ({ name, city, country, pageSize }: { name?: string; city?: string; country?: string; pageSize?: string }) =>
+    getTeams(name, city, country, pageSize)
 );
 const getCountriesAsync = createAsyncThunk('getCountries', getCountries);
 const getTeamDetailsAsync = createAsyncThunk('getTeamDetails', ({ teamId }: { teamId: string }) =>
@@ -38,7 +40,9 @@ const getTeamEventsAsync = createAsyncThunk('getTeamEvents', ({ teamId }: { team
 const actionsSlice = createSlice({
   name: 'actions',
   initialState: INITIAL_STATE,
-  reducers: {},
+  reducers: {
+    clearTeamDetails: onClearTeamDetails,
+  },
   extraReducers: builder =>
     builder
       .addCase(getTeamsAsync.pending, onGetTeamsPending)

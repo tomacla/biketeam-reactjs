@@ -2,7 +2,7 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import Footer from './components/Footer';
-import Header from './components/Header';
+import HeaderContainer from './components/HeaderContainer';
 import MainContainer from './components/MainContainer';
 
 const Container = styled.div`
@@ -13,7 +13,7 @@ flex-direction: column;
 
 const App: FC = () => (
   <Container>
-    <Header />
+    <HeaderContainer />
     <MainContainer />
     <Footer />
   </Container>
