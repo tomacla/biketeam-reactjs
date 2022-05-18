@@ -3,7 +3,7 @@ import { Button, Col, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { Team } from '../../redux/interfaces';
 import { API_URL } from '../common/constants';
-import { ContentContainer } from './common';
+import { ContentContainer, SectionTitle } from './common';
 
 const TitleContainer = styled.div`
 display: flex;
@@ -78,14 +78,14 @@ const Details: FC<DetailsProps> = ({ team, onJoinTeam }) => {
   return (
     <ContentContainer>
       <TitleContainer>
-        <h5>
+        <SectionTitle>
           {name}
           <span className='small ps-2'>
             {social.facebook ? (toSocialLink('facebook', social.facebook)) : null}
             {social.twitter ? (toSocialLink('twitter', social.twitter)) : null}
             {social.instagram ? (toSocialLink('instagram', social.instagram)) : null}
           </span>
-        </h5>
+        </SectionTitle>
         <Button size="sm" variant="outline-success" onClick={onJoinTeam}>
           <JoinIcon />
           Rejoindre
