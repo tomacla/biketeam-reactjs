@@ -41,7 +41,6 @@ const useHomeTeamProps = (): HomeTeamPropsResults => {
   } = useCurrentStateAndParams();
   useEffect(() => {
     if (teamId) {
-      dispatch(actions.getTeamDetailsAsync({ teamId }));
       dispatch(actions.getTeamMembersAsync({ teamId }));
       dispatch(actions.getTeamEventsAsync({ teamId }));
     }

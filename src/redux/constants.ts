@@ -11,5 +11,7 @@ export const INITIAL_BIKETEAM_STATE: BikeTeamState = {
       rides: [],
     },
   },
-  ui: {},
+  ui: {
+    navitems: []
+  },
 };
