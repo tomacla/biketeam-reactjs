@@ -2,7 +2,7 @@ import { FC, memo } from 'react';
 import { Badge } from 'react-bootstrap';
 import styled from 'styled-components';
 import { TeamMember } from '../../redux/interfaces';
-import { ContentContainer } from './common';
+import { ContentContainer, SectionTitle } from './common';
 import Member from './Member';
 
 const MemberList = styled.div`
@@ -18,7 +18,7 @@ interface MembersProps {
 const Members: FC<MembersProps> = ({ members }) => {
   return (
     <ContentContainer>
-      <h5>Membres <Badge bg="secondary">{members.length}</Badge></h5>
+      <SectionTitle>Membres <Badge bg="secondary">{members.length}</Badge></SectionTitle>
       <MemberList>
         {
           members.map(({ name, image }) => (

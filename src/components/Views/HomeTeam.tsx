@@ -9,6 +9,7 @@ import { useMemoizedSelector } from '../../redux/useMemoizedSelector';
 import { DEFAULT_TITLE } from '../common/constants';
 import Details from '../Team/Details';
 import Events from '../Team/Event/EventList';
+import HeatMap from '../Team/HeatMap';
 import Members from '../Team/Members';
 import { ViewContainer } from './common';
 
@@ -69,7 +70,8 @@ const HomeTeam: FC = () => {
             onJoinTeam={() => { }}
           />
           <Members members={members} />
-          {/* TODO: Add heatmap */}
+          {team.heatmap ?<HeatMap teamId={team.id}/> : null}
+
         </LeftCol>
         <RightCol>
           <Events events={events} />
