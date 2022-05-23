@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { FC, memo, ReactNode } from 'react';
-import { Badge, Button, Card, Col, Row } from 'react-bootstrap';
-import { TeamEvent, EventType } from '../../redux/interfaces';
-import styled from 'styled-components';
+import { LinkProps } from '@uirouter/react/lib/hooks/useSref';
 import moment from 'moment';
 import 'moment/locale/fr';
+import { FC, memo, ReactNode } from 'react';
+import { Badge, Button, Card, Col, Row } from 'react-bootstrap';
+import styled from 'styled-components';
+import { EventType } from '../../redux/interfaces';
 import { API_URL } from '../common/constants';
-import { useSref } from '@uirouter/react';
-import { LinkProps } from '@uirouter/react/lib/hooks/useSref';
 
-const EventCard = styled(Card)`
+const EventCardContainer = styled(Card)`
   margin: 8px 0 8px 0;
 `;
 
@@ -18,7 +17,6 @@ const SeeIcon = styled.i.attrs({
 })`
 margin-right: 4px;
 `;
-
 
 interface BikeIconProps {
   className: string;
@@ -40,8 +38,8 @@ interface GroupBadgeProps {
 }
 
 const GroupBadge = styled(Badge) <GroupBadgeProps>`
-margin-right: 4px;
-background-color: ${({ color }) => (color)} !important;
+  margin-right: 4px;
+  background-color: ${({ color }) => (color)} !important;
 `;
 
 const EventImage = styled.img.attrs({
@@ -58,9 +56,7 @@ const EventContent = styled.p`
   white-space: pre-wrap;
 `;
 
-interface EventProps {
-  event: TeamEvent;
-}
+
 
 function toTypeTitle(type: EventType): ReactNode {
   return {
@@ -96,19 +92,34 @@ function toEventTitle(type: EventType, title: string, date?: Date): string {
   }[type]
 }
 
-function useEventLink(type: EventType, id: string): LinkProps | undefined {
-  return {
-    TRIP: useSref('trip', { tripId: id }),
-    RIDE: useSref('ride', { rideId: id }),
-    PUBLICATION: undefined
-  }[type]
+interface EventProps {
+  type: EventType,
+  publishedAt: Date,
+  title: string,
+  date: Date,
+  badges: string[],
+  content: string,
+  imaged: boolean,
+  teamId: string,
+  id: string,
+  goToEvent?: LinkProps;
 }
 
-const Event: FC<EventProps> = ({ event }) => {
-  const { type, publishedAt, title, date, badges, content, imaged, teamId, id } = event;
-  const goToEvent = useEventLink(type, id);
+const EventCard: FC<EventProps> = (
+  {
+    type,
+    publishedAt,
+    title,
+    date,
+    badges,
+    content,
+    imaged,
+    teamId,
+    id,
+    goToEvent
+  }) => {
   return (
-    <EventCard>
+    <EventCardContainer>
       <CardHeader className='text-end'>{toTypeTitle(type)}publié {moment(publishedAt).locale('fr').fromNow()}</CardHeader>
       <Card.Body>
         <Card.Title>{toEventTitle(type, title, date)}</Card.Title>
@@ -133,8 +144,8 @@ const Event: FC<EventProps> = ({ event }) => {
           <Button {...goToEvent} size="sm" variant="secondary"><SeeIcon />Voir</Button>
         </Card.Footer>) : null
       }
-    </EventCard>
+    </EventCardContainer>
   )
 }
 
-export default memo(Event);
+export default memo(EventCard);

@@ -11,6 +11,7 @@ export interface BikeTeamStateEntitiesData {
 export interface BikeTeamStateEntitiesTeam {
   members: TeamMember[];
   events: TeamEvent[];
+  rides: TeamRide[];
   details?: Team;
 }
 export interface BikeTeamStateEntities {
@@ -48,6 +49,53 @@ export type TeamEvent = {
   badges: string[];
   imaged: boolean;
 };
+
+export type MapType = 'ROAD' | 'GRAVEL';
+
+export interface Map {
+  id: string;
+  teamId: string;
+  permalink: string;
+  name: string;
+  length: number;
+  type: MapType;
+  positiveElevation: number;
+  negativeElevation: number;
+  postedAt: Date;
+  tags: string[];
+  crossing: boolean;
+}
+
+export type RideGroup = {
+  id: string;
+  name: string;
+  lowerSpeed: number;
+  upperSpeed: number;
+  map: Map;
+  meetingLocation: string;
+  meetingTime: Date;
+  meetingPoint: string; // ?
+  participants: []; //TODO
+};
+
+export type PublishStatusType = 'PUBLISHED' | 'DRAFT'; // ?
+export type RideType = 'RUGULAR' | 'JCPA'; // ?
+
+export type TeamRide = {
+  id: string;
+  teamId: string;
+  permalink: string; // ?
+  publishedStatus: PublishStatusType;
+  type: RideType;
+  date: Date;
+  publishedAt: Date;
+  title: string;
+  description: string;
+  imaged: boolean;
+  messages: []; //TODO
+  groups: RideGroup[];
+};
+
 
 export interface TeamSocial {
   facebook?: string;

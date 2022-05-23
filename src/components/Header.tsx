@@ -13,7 +13,7 @@ const Title = styled.h1`
 text-transform: uppercase;
 font-size: 20px;
 font-weight: 500;
-margin: 8px 0 8px 0;
+margin: 0;
 &:after{
   content:'team';
   font-weight: 400;
@@ -32,13 +32,17 @@ padding: 8px;
 &:hover{
   color: black;
 }
-`
 
+`
 const HouseIcon = styled.i.attrs({
   className: 'bi bi-house'
 })`
 margin-right: 4px;
 `;
+
+const NavButton = styled(Nav.Link)`
+  padding: 0;
+`
 
 interface HeaderProps {
   onGoHome: LinkProps;
@@ -68,9 +72,9 @@ const Header: FC<HeaderProps> = ({ onGoHome, selectedTeamId, onGoFeed, onGoMaps,
               </>
             ) : (null)
           }
-          <Nav.Link >
+          <NavButton >
             <Button variant="outline-secondary" size="sm">Connexion</Button>
-          </Nav.Link>
+          </NavButton>
         </Nav>
       </Container>
     </Navbar>

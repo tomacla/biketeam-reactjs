@@ -1,6 +1,6 @@
 import { configureStore, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import { getCountries, getTeamDetails, getTeamEvents, getTeamMembers, getTeams } from './actions';
+import { getCountries, getTeamDetails, getTeamEvents, getTeamMembers, getTeamRides, getTeams } from './actions';
 import { INITIAL_BIKETEAM_STATE } from './constants';
 import {
   onClearTeamDetails,
@@ -16,6 +16,9 @@ import {
   onGetTeamMembersFullfilled,
   onGetTeamMembersPending,
   onGetTeamMembersRejected,
+  onGetTeamRidesFullfilled,
+  onGetTeamRidesPending,
+  onGetTeamRidesRejected,
   onGetTeamsFullfilled,
   onGetTeamsPending,
   onGetTeamsRejected,
@@ -35,7 +38,12 @@ const getTeamDetailsAsync = createAsyncThunk('getTeamDetails', ({ teamId }: { te
 const getTeamMembersAsync = createAsyncThunk('getTeamMembers', ({ teamId }: { teamId: string }) =>
   getTeamMembers(teamId)
 );
-const getTeamEventsAsync = createAsyncThunk('getTeamEvents', ({ teamId }: { teamId: string }) => getTeamEvents(teamId));
+const getTeamEventsAsync = createAsyncThunk('getTeamEvents', ({ teamId }: { teamId: string }) =>
+  getTeamEvents(teamId)
+);
+const getTeamRidesAsync = createAsyncThunk('getTeamRides', ({ teamId, from, to }: { teamId: string, from?: Date, to?:Date }) =>
+  getTeamRides(teamId, from, to)
+);
 
 const actionsSlice = createSlice({
   name: 'actions',
@@ -59,7 +67,10 @@ const actionsSlice = createSlice({
       .addCase(getTeamMembersAsync.rejected, onGetTeamMembersRejected)
       .addCase(getTeamEventsAsync.fulfilled, onGetTeamEventsFullfilled)
       .addCase(getTeamEventsAsync.pending, onGetTeamEventsPending)
-      .addCase(getTeamEventsAsync.rejected, onGetTeamEventsRejected),
+      .addCase(getTeamEventsAsync.rejected, onGetTeamEventsRejected)
+      .addCase(getTeamRidesAsync.fulfilled, onGetTeamRidesFullfilled)
+      .addCase(getTeamRidesAsync.pending, onGetTeamRidesPending)
+      .addCase(getTeamRidesAsync.rejected, onGetTeamRidesRejected),
 });
 
 export const actions = {
@@ -69,6 +80,7 @@ export const actions = {
   getTeamDetailsAsync,
   getTeamMembersAsync,
   getTeamEventsAsync,
+  getTeamRidesAsync,
 };
 
 const { reducer } = actionsSlice;
