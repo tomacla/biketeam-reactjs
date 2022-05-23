@@ -1,4 +1,4 @@
-import { BikeTeamState, Country, Team, TeamEvent, TeamMember, TeamRide } from './interfaces';
+import { BikeTeamState, Country, NavItem, Team, TeamEvent, TeamMember, TeamRide } from './interfaces';
 
 export function selectTeams(state: BikeTeamState): Team[] {
   return state.entities.teams;
@@ -26,4 +26,8 @@ export function selecteCurrentTeamId(state: BikeTeamState): string | undefined {
 
 export function selectTeamRides(state: BikeTeamState): TeamRide[] {
   return state.entities.team.rides;
+}
+
+export function selectUiNavItems(state:BikeTeamState): NavItem[] {
+  return state.ui.navitems
 }

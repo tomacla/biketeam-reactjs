@@ -20,7 +20,11 @@ export interface BikeTeamStateEntities {
   team: BikeTeamStateEntitiesTeam;
 }
 
-export interface BikeTeamStateUi {}
+export type NavItem = 'feed' | 'rides' | 'trips' | 'maps'
+
+export interface BikeTeamStateUi {
+  navitems: NavItem[]
+}
 
 export type TeamVisibility = 'PUBLIC' | 'PRIVATE';
 
@@ -111,6 +115,15 @@ export interface TeamContact {
   addressCity?: string;
 }
 
+export interface TeamConfiguration {
+  defaultPage: string,
+  defaultSearchTags: string[],
+  feedVisible: boolean,
+  ridesVisible: boolean,
+  tripsVisible: boolean,
+  timezone: string
+}
+
 export interface Team {
   id: string;
   name: string;
@@ -122,6 +135,7 @@ export interface Team {
   social: TeamSocial;
   contact: TeamContact;
   heatmap: boolean;
+  configuration:TeamConfiguration
   other?: string;
 }
 

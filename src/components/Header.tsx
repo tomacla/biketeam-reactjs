@@ -3,6 +3,7 @@ import { LinkProps } from '@uirouter/react/lib/hooks/useSref';
 import React, { FC, memo } from 'react';
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import styled from 'styled-components';
+import { NavItem } from '../redux/interfaces';
 
 const Title = styled.h1`
 &:before{
@@ -45,6 +46,8 @@ const NavButton = styled(Nav.Link)`
 `
 
 interface HeaderProps {
+
+  navItems: NavItem[];
   onGoHome: LinkProps;
   onGoFeed: LinkProps;
   onGoRides: LinkProps;
@@ -53,7 +56,30 @@ interface HeaderProps {
   selectedTeamId?: string;
 }
 
-const Header: FC<HeaderProps> = ({ onGoHome, selectedTeamId, onGoFeed, onGoMaps, onGoRides, onGoTrips }) => {
+function toTitle(item: NavItem): string {
+  return {
+    rides: 'Rides',
+    trips: 'Trips',
+    maps: 'Maps',
+    feed: 'Actualité'
+  }[item]
+}
+
+
+function toLink(item: NavItem, onGoHome: LinkProps,
+  onGoFeed: LinkProps,
+  onGoRides: LinkProps,
+  onGoTrips: LinkProps,
+  onGoMaps: LinkProps): LinkProps {
+  return {
+    rides: onGoRides,
+    trips: onGoTrips,
+    maps: onGoMaps,
+    feed: onGoFeed
+  }[item]
+}
+
+const Header: FC<HeaderProps> = ({ onGoHome, selectedTeamId, onGoFeed, onGoMaps, onGoRides, onGoTrips, navItems }) => {
   return (
     <Navbar bg="light">
       <Container>
@@ -64,10 +90,10 @@ const Header: FC<HeaderProps> = ({ onGoHome, selectedTeamId, onGoFeed, onGoMaps,
           {
             selectedTeamId ? (
               <>
-                <Nav.Link {...onGoFeed}>Actualité</Nav.Link>
-                <Nav.Link {...onGoRides}>Rides</Nav.Link>
-                <Nav.Link {...onGoTrips}>Trips</Nav.Link>
-                <Nav.Link {...onGoMaps}>Maps</Nav.Link>
+                {navItems.map((navItem) => (
+                  <Nav.Link key={navItem} {...toLink(navItem, onGoHome, onGoFeed, onGoRides, onGoTrips, onGoMaps)}>
+                    {toTitle(navItem)}</Nav.Link>
+                ))}
                 <Link {...onGoHome}><HouseIcon /></Link>
               </>
             ) : (null)

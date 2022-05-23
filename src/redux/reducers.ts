@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { BikeTeamState, Country, Team, TeamEvent, TeamMemberApi, TeamRide } from './interfaces';
+import { BikeTeamState, Country, NavItem, Team, TeamConfiguration, TeamEvent, TeamMemberApi, TeamRide } from './interfaces';
 
 export function onGetTeamsPending(): void {}
 export function onGetTeamsRejected(): void {}
@@ -13,10 +13,26 @@ export function onGetCountriesFullfilled(state: BikeTeamState, { payload: countr
   state.entities.data.countries = countries;
 }
 
+function toNavItems(configuration: TeamConfiguration): NavItem[] {
+  const navItems: NavItem[] = [];
+  if (configuration.feedVisible) {
+    navItems.push('feed');
+  }
+  if (configuration.ridesVisible) {
+    navItems.push('rides');
+  }
+  if (configuration.tripsVisible) {
+    navItems.push('trips');
+  }
+  navItems.push('maps');
+  return navItems
+}
+
 export function onGetTeamDetailsPending(): void {}
 export function onGetTeamDetailsRejected(): void {}
 export function onGetTeamDetailsFullfilled(state: BikeTeamState, { payload: team }: PayloadAction<Team>): void {
   state.entities.team.details = team;
+  state.ui.navitems = toNavItems(team.configuration)
 }
 export function onClearTeamDetails(state: BikeTeamState): void {
   state.entities.team.details = undefined;
