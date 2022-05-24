@@ -1,7 +1,7 @@
 import React, { FC, memo } from 'react';
 import { Button, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
 import styled from 'styled-components';
-import { SubmitFormHandler } from '../../Teams/interfaces';
+import { SubmitFormHandler } from '../Teams/interfaces';
 
 const InputGroupWithMargin = styled(InputGroup)`
 margin: 8px 0 8px 0;
@@ -12,11 +12,11 @@ margin: 8px;
 display: flex;
 justify-content: center;
 `
-interface RideFilterFormProps {
+interface PeriodFilterFormProps {
   onSubmit: SubmitFormHandler
 }
 
-const RideFilterForm: FC<RideFilterFormProps> = ({ onSubmit }) => {
+const PeriodFilterForm: FC<PeriodFilterFormProps> = ({ onSubmit }) => {
   return (
     <Container>
       <Form onSubmit={onSubmit}>
@@ -44,4 +44,4 @@ const RideFilterForm: FC<RideFilterFormProps> = ({ onSubmit }) => {
   )
 }
 
-export default memo(RideFilterForm);
+export default memo(PeriodFilterForm);
