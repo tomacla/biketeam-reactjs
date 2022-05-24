@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
+
+import { useSref } from '@uirouter/react';
 import { LinkProps } from '@uirouter/react/lib/hooks/useSref';
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -11,6 +13,12 @@ import { API_URL } from '../common/constants';
 const EventCardContainer = styled(Card)`
   margin: 8px 0 8px 0;
 `;
+
+const Title = styled(Card.Title)`
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.2;
+`
 
 const SeeIcon = styled.i.attrs({
   className: 'bi bi-eye-fill'
@@ -56,7 +64,12 @@ const EventContent = styled.p`
   white-space: pre-wrap;
 `;
 
-
+const EventDate = styled.h5`
+  color: #6c757d!important;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.2;
+`
 
 function toTypeTitle(type: EventType): ReactNode {
   return {
@@ -84,11 +97,19 @@ function toBadgeColor(badge: string): string | undefined {
   }[badge.toUpperCase()]
 }
 
-function toEventTitle(type: EventType, title: string, date?: Date): string {
+function useEventLink(type: EventType, id: string): LinkProps | undefined {
   return {
-    TRIP: title + ' - ' + moment(date).format('LL'),
-    RIDE: title + ' - ' + moment(date).format('LL'),
-    PUBLICATION: title
+    TRIP: useSref('trip', { tripId: id }),
+    RIDE: useSref('ride', { rideId: id }),
+    PUBLICATION: undefined
+  }[type]
+}
+
+function toEventDate(type: EventType, date?: Date, endDate?: Date): string {
+  return {
+    TRIP: 'Du ' + moment(date).format('LL') + ' au ' + moment(endDate).format('LL'),
+    RIDE: moment(date).format('LL'),
+    PUBLICATION: ''
   }[type]
 }
 
@@ -102,7 +123,7 @@ interface EventProps {
   imaged: boolean,
   teamId: string,
   id: string,
-  goToEvent?: LinkProps;
+  endDate?: Date,
 }
 
 const EventCard: FC<EventProps> = (
@@ -116,14 +137,18 @@ const EventCard: FC<EventProps> = (
     imaged,
     teamId,
     id,
-    goToEvent
+    endDate
   }) => {
+  const goToEvent = useEventLink(type, id)
   return (
     <EventCardContainer>
       <CardHeader className='text-end'>{toTypeTitle(type)}publié {moment(publishedAt).locale('fr').fromNow()}</CardHeader>
       <Card.Body>
-        <Card.Title>{toEventTitle(type, title, date)}</Card.Title>
+        <Title>{title}</Title>
         <Card.Text>
+          <EventDate>
+            {toEventDate(type, date, endDate)}
+          </EventDate>
           <p>
             {badges.map((badge) => <GroupBadge color={toBadgeColor(badge)} key={badge} bg="secondary">{badge}</GroupBadge>)}
           </p>

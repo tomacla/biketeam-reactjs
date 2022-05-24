@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { BikeTeamState, Country, NavItem, Team, TeamConfiguration, TeamEvent, TeamMemberApi, TeamRide } from './interfaces';
+import { BikeTeamState, Country, NavItem, Team, TeamConfiguration, TeamEvent, TeamMemberApi, TeamRide, TeamTrip } from './interfaces';
 
 export function onGetTeamsPending(): void {}
 export function onGetTeamsRejected(): void {}
@@ -57,4 +57,10 @@ export function onGetTeamRidesPending(): void {}
 export function onGetTeamRidesRejected(): void {}
 export function onGetTeamRidesFullfilled(state: BikeTeamState, { payload: rides }: PayloadAction<TeamRide[]>): void {
   state.entities.team.rides = rides;
+}
+
+export function onGetTeamTripsPending(): void {}
+export function onGetTeamTripsRejected(): void {}
+export function onGetTeamTripsFullfilled(state: BikeTeamState, { payload: rides }: PayloadAction<TeamTrip[]>): void {
+  state.entities.team.trips = rides;
 }

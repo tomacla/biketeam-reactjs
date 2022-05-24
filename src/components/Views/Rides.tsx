@@ -5,7 +5,7 @@ import { TeamRide } from '../../redux/interfaces';
 import { selectTeamRides } from '../../redux/selectors';
 import { actions, useActionsDispatch } from '../../redux/store';
 import { useMemoizedSelector } from '../../redux/useMemoizedSelector';
-import RideFilterForm from '../Team/Ride/RideFilterForm';
+import PeriodFilterForm from '../common/PeriodFilterForm';
 import RideList from '../Team/Ride/RideList';
 import { SubmitFormHandler } from '../Teams/interfaces';
 import { ViewContainer } from './common';
@@ -51,7 +51,7 @@ const Rides: FC = () => {
   const { rides, handleSubmitForm } = useRidesProps();
   return (
     <ViewContainer>
-      <RideFormContainer><RideFilterForm onSubmit={handleSubmitForm}/></RideFormContainer>
+      <RideFormContainer><PeriodFilterForm onSubmit={handleSubmitForm}/></RideFormContainer>
       <RideList rides={rides} />
     </ViewContainer>)
 }

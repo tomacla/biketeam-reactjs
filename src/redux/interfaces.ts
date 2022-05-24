@@ -12,6 +12,7 @@ export interface BikeTeamStateEntitiesTeam {
   members: TeamMember[];
   events: TeamEvent[];
   rides: TeamRide[];
+  trips: TeamTrip[];
   details?: Team;
 }
 export interface BikeTeamStateEntities {
@@ -142,4 +143,26 @@ export interface Team {
 export interface Country {
   label: string;
   code: string;
+}
+
+export interface TeamTripStage {
+  id: string;
+  date: Date;
+  name: string;
+  map: Map
+}
+
+export interface TeamTrip  {
+  id: string;
+  teamId: string;
+  permalink: string; // ?
+  publishedStatus: PublishStatusType;
+  type: RideType;
+  startDate: Date;
+  endDate: Date;
+  publishedAt: Date;
+  title: string;
+  description: string;
+  imaged: boolean;
+  stages: TeamTripStage[];
 }

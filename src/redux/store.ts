@@ -1,6 +1,6 @@
 import { configureStore, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import { getCountries, getTeamDetails, getTeamEvents, getTeamMembers, getTeamRides, getTeams } from './actions';
+import { getCountries, getTeamDetails, getTeamEvents, getTeamMembers, getTeamRides, getTeams, getTeamTrips } from './actions';
 import { INITIAL_BIKETEAM_STATE } from './constants';
 import {
   onClearTeamDetails,
@@ -22,6 +22,9 @@ import {
   onGetTeamsFullfilled,
   onGetTeamsPending,
   onGetTeamsRejected,
+  onGetTeamTripsFullfilled,
+  onGetTeamTripsPending,
+  onGetTeamTripsRejected,
 } from './reducers';
 
 const INITIAL_STATE = INITIAL_BIKETEAM_STATE;
@@ -43,6 +46,9 @@ const getTeamEventsAsync = createAsyncThunk('getTeamEvents', ({ teamId }: { team
 );
 const getTeamRidesAsync = createAsyncThunk('getTeamRides', ({ teamId, from, to }: { teamId: string, from?: Date, to?:Date }) =>
   getTeamRides(teamId, from, to)
+);
+const getTeamTripsAsync = createAsyncThunk('getTeamTrips', ({ teamId, from, to }: { teamId: string, from?: Date, to?:Date }) =>
+  getTeamTrips(teamId, from, to)
 );
 
 const actionsSlice = createSlice({
@@ -70,7 +76,10 @@ const actionsSlice = createSlice({
       .addCase(getTeamEventsAsync.rejected, onGetTeamEventsRejected)
       .addCase(getTeamRidesAsync.fulfilled, onGetTeamRidesFullfilled)
       .addCase(getTeamRidesAsync.pending, onGetTeamRidesPending)
-      .addCase(getTeamRidesAsync.rejected, onGetTeamRidesRejected),
+      .addCase(getTeamRidesAsync.rejected, onGetTeamRidesRejected)
+      .addCase(getTeamTripsAsync.fulfilled, onGetTeamTripsFullfilled)
+      .addCase(getTeamTripsAsync.pending, onGetTeamTripsPending)
+      .addCase(getTeamTripsAsync.rejected, onGetTeamTripsRejected),
 });
 
 export const actions = {
@@ -81,6 +90,7 @@ export const actions = {
   getTeamMembersAsync,
   getTeamEventsAsync,
   getTeamRidesAsync,
+  getTeamTripsAsync
 };
 
 const { reducer } = actionsSlice;

@@ -1,6 +1,6 @@
 import { FC, memo } from 'react';
 import { TeamEvent } from '../../../redux/interfaces';
-import Event from '../Event/Event';
+import EventCard from '../../common/EventCard';
 
 
 interface EventListProps {
@@ -10,7 +10,7 @@ interface EventListProps {
 const EventList: FC<EventListProps> = ({ events }) => {
   return (
     <div>
-      {events.map((event) => <Event key={event.id} event={event} />)}
+      {events.map((event) => <EventCard key={event.id}  {...event} />)}
     </div>
   )
 }

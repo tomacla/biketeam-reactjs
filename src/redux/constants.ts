@@ -9,6 +9,7 @@ export const INITIAL_BIKETEAM_STATE: BikeTeamState = {
       members: [],
       events: [],
       rides: [],
+      trips: []
     },
   },
   ui: {

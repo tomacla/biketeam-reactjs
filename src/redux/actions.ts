@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Country, Team, TeamEvent, TeamMemberApi, TeamRide } from './interfaces';
+import { Country, Team, TeamEvent, TeamMemberApi, TeamRide, TeamTrip } from './interfaces';
 
 const API_URL = 'https://staging.biketeam.info/api';
 const DEFAULT_PAGE_SIZE = '10';
@@ -65,3 +65,18 @@ export async function getTeamRides(teamId: string, from?: Date, to?: Date): Prom
   const { data: result } = await axios.get(`${API_URL}/teams/${teamId}/rides`, config);
   return result;
 }
+
+export async function getTeamTrips(teamId: string, from?: Date, to?: Date): Promise<TeamTrip[]> {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    params: {
+      from: from,
+      to: to,
+      pageSize: DEFAULT_PAGE_SIZE,
+      page: DEFAULT_PAGE,
+    },
+  };
+  const { data: result } = await axios.get(`${API_URL}/teams/${teamId}/trips`, config);
+  return result;
+}
+
