@@ -6,6 +6,9 @@ export interface BikeTeamState {
 
 export interface BikeTeamStateEntitiesData {
   countries: Country[];
+  windDirection: string[];
+  mapType: string[];
+  mapSort: string[]
 }
 
 export interface BikeTeamStateEntitiesTeam {
@@ -13,7 +16,10 @@ export interface BikeTeamStateEntitiesTeam {
   events: TeamEvent[];
   rides: TeamRide[];
   trips: TeamTrip[];
+  maps: Map[];
   details?: Team;
+  ride?: TeamRide;
+  trip?: TeamTrip;
 }
 export interface BikeTeamStateEntities {
   teams: Team[];
@@ -47,7 +53,7 @@ export type TeamEvent = {
   teamId: string;
   teamName: string;
   type: EventType;
-  publishedAt: Date; // TO CHANGE
+  publishedAt: Date;
   title: string;
   date: Date;
   content: string;
@@ -165,4 +171,8 @@ export interface TeamTrip  {
   description: string;
   imaged: boolean;
   stages: TeamTripStage[];
+  lowerSpeed: number;
+  upperSpeed: number;
+  meetingLocation: string;
+  meetingTime: string;
 }

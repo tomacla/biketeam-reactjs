@@ -27,6 +27,7 @@ export const useRidesProps = (): RidesPropsResults => {
     params: { teamId },
   } = useCurrentStateAndParams();
   useEffect(() => {
+    // dispatch(actions.getTeamDetailsAsync({ teamId }));
     dispatch(actions.getTeamRidesAsync({ teamId }))
   }, [dispatch, teamId]);
   const rides = useMemoizedSelector(selectTeamRides);

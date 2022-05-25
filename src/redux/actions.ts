@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Country, Team, TeamEvent, TeamMemberApi, TeamRide, TeamTrip } from './interfaces';
+import { Country, Team, TeamEvent, TeamMemberApi, TeamRide, TeamTrip, Map } from './interfaces';
 
 const API_URL = 'https://staging.biketeam.info/api';
 const DEFAULT_PAGE_SIZE = '10';
@@ -80,3 +80,48 @@ export async function getTeamTrips(teamId: string, from?: Date, to?: Date): Prom
   return result;
 }
 
+export async function getTeamRide(teamId: string, rideId: string): Promise<TeamRide> {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+  const { data: ride } = await axios.get(`${API_URL}/teams/${teamId}/rides/${rideId}`, config);
+  return ride;
+}
+
+export async function getTeamTrip(teamId: string, tripId: string): Promise<TeamTrip> {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+  const { data: trip } = await axios.get(`${API_URL}/teams/${teamId}/trips/${tripId}`, config);
+  return trip;
+}
+
+export async function getTeamMaps(
+  teamId: string,
+  lowerDistance?: number,
+  upperDistance?: number,
+  lowerPositiveElevation?: number,
+  upperPositiveElevation?: number,
+  sort?: string,
+  windDirection?: string,
+  type?: string,
+  tags?: string[]
+): Promise<Map[]> {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    params: {
+      lowerDistance: lowerDistance || 20,
+      upperDistance: upperDistance || 200,
+      lowerPositiveElevation: lowerPositiveElevation || 100,
+      upperPositiveElevation: upperPositiveElevation || 1000,
+      sort: sort,
+      windDirection: windDirection,
+      type: type,
+      tags: tags,
+      pageSize: DEFAULT_PAGE_SIZE,
+      page: DEFAULT_PAGE,
+    },
+  };
+  const { data: result } = await axios.get(`${API_URL}/teams/${teamId}/maps`, config);
+  return result;
+}

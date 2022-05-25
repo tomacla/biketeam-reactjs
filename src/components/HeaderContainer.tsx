@@ -7,8 +7,8 @@ import { useMemoizedSelector } from '../redux/useMemoizedSelector';
 import Header from './Header';
 
 
-function useTeamId(): string{
-  const dispatch = useActionsDispatch()
+function useTeamId(): string | undefined{
+  const dispatch = useActionsDispatch();
   const {
     params: { teamId },
   } = useCurrentStateAndParams();
@@ -41,3 +41,4 @@ const HeaderContainer: FC = () => {
 }
 
 export default memo(HeaderContainer);
+

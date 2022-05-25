@@ -1,6 +1,17 @@
 import { configureStore, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import { getCountries, getTeamDetails, getTeamEvents, getTeamMembers, getTeamRides, getTeams, getTeamTrips } from './actions';
+import {
+  getCountries,
+  getTeamDetails,
+  getTeamEvents,
+  getTeamMaps,
+  getTeamMembers,
+  getTeamRide,
+  getTeamRides,
+  getTeams,
+  getTeamTrip,
+  getTeamTrips,
+} from './actions';
 import { INITIAL_BIKETEAM_STATE } from './constants';
 import {
   onClearTeamDetails,
@@ -13,15 +24,24 @@ import {
   onGetTeamEventsFullfilled,
   onGetTeamEventsPending,
   onGetTeamEventsRejected,
+  onGetTeamMapsFullfilled,
+  onGetTeamMapsPending,
+  onGetTeamMapsRejected,
   onGetTeamMembersFullfilled,
   onGetTeamMembersPending,
   onGetTeamMembersRejected,
+  onGetTeamRideFullfilled,
+  onGetTeamRidePending,
+  onGetTeamRideRejected,
   onGetTeamRidesFullfilled,
   onGetTeamRidesPending,
   onGetTeamRidesRejected,
   onGetTeamsFullfilled,
   onGetTeamsPending,
   onGetTeamsRejected,
+  onGetTeamTripFullfilled,
+  onGetTeamTripPending,
+  onGetTeamTripRejected,
   onGetTeamTripsFullfilled,
   onGetTeamTripsPending,
   onGetTeamTripsRejected,
@@ -41,14 +61,55 @@ const getTeamDetailsAsync = createAsyncThunk('getTeamDetails', ({ teamId }: { te
 const getTeamMembersAsync = createAsyncThunk('getTeamMembers', ({ teamId }: { teamId: string }) =>
   getTeamMembers(teamId)
 );
-const getTeamEventsAsync = createAsyncThunk('getTeamEvents', ({ teamId }: { teamId: string }) =>
-  getTeamEvents(teamId)
+const getTeamEventsAsync = createAsyncThunk('getTeamEvents', ({ teamId }: { teamId: string }) => getTeamEvents(teamId));
+const getTeamRidesAsync = createAsyncThunk(
+  'getTeamRides',
+  ({ teamId, from, to }: { teamId: string; from?: Date; to?: Date }) => getTeamRides(teamId, from, to)
 );
-const getTeamRidesAsync = createAsyncThunk('getTeamRides', ({ teamId, from, to }: { teamId: string, from?: Date, to?:Date }) =>
-  getTeamRides(teamId, from, to)
+const getTeamTripsAsync = createAsyncThunk(
+  'getTeamTrips',
+  ({ teamId, from, to }: { teamId: string; from?: Date; to?: Date }) => getTeamTrips(teamId, from, to)
 );
-const getTeamTripsAsync = createAsyncThunk('getTeamTrips', ({ teamId, from, to }: { teamId: string, from?: Date, to?:Date }) =>
-  getTeamTrips(teamId, from, to)
+const getTeamRideAsync = createAsyncThunk('getTeamRide', ({ teamId, rideId }: { teamId: string; rideId: string }) =>
+  getTeamRide(teamId, rideId)
+);
+const getTeamTripAsync = createAsyncThunk('getTeamTrip', ({ teamId, tripId }: { teamId: string; tripId: string }) =>
+  getTeamTrip(teamId, tripId)
+);
+const getTeamMapsAsync = createAsyncThunk(
+  'getTeamMaps',
+  ({
+    teamId,
+    lowerDistance,
+    upperDistance,
+    lowerPositiveElevation,
+    upperPositiveElevation,
+    sort,
+    windDirection,
+    type,
+    tags,
+  }: {
+    teamId: string;
+    lowerDistance?: number;
+    upperDistance?: number;
+    lowerPositiveElevation?: number;
+    upperPositiveElevation?: number;
+    sort?: string;
+    windDirection?: string;
+    type?: string;
+    tags?: string[];
+  }) =>
+    getTeamMaps(
+      teamId,
+      lowerDistance,
+      upperDistance,
+      lowerPositiveElevation,
+      upperPositiveElevation,
+      sort,
+      windDirection,
+      type,
+      tags
+    )
 );
 
 const actionsSlice = createSlice({
@@ -79,7 +140,16 @@ const actionsSlice = createSlice({
       .addCase(getTeamRidesAsync.rejected, onGetTeamRidesRejected)
       .addCase(getTeamTripsAsync.fulfilled, onGetTeamTripsFullfilled)
       .addCase(getTeamTripsAsync.pending, onGetTeamTripsPending)
-      .addCase(getTeamTripsAsync.rejected, onGetTeamTripsRejected),
+      .addCase(getTeamTripsAsync.rejected, onGetTeamTripsRejected)
+      .addCase(getTeamRideAsync.fulfilled, onGetTeamRideFullfilled)
+      .addCase(getTeamRideAsync.pending, onGetTeamRidePending)
+      .addCase(getTeamRideAsync.rejected, onGetTeamRideRejected)
+      .addCase(getTeamTripAsync.fulfilled, onGetTeamTripFullfilled)
+      .addCase(getTeamTripAsync.pending, onGetTeamTripPending)
+      .addCase(getTeamTripAsync.rejected, onGetTeamTripRejected)
+      .addCase(getTeamMapsAsync.fulfilled, onGetTeamMapsFullfilled)
+      .addCase(getTeamMapsAsync.pending, onGetTeamMapsPending)
+      .addCase(getTeamMapsAsync.rejected, onGetTeamMapsRejected),
 });
 
 export const actions = {
@@ -90,7 +160,10 @@ export const actions = {
   getTeamMembersAsync,
   getTeamEventsAsync,
   getTeamRidesAsync,
-  getTeamTripsAsync
+  getTeamTripsAsync,
+  getTeamTripAsync,
+  getTeamRideAsync,
+  getTeamMapsAsync
 };
 
 const { reducer } = actionsSlice;
@@ -102,4 +175,3 @@ export type ActionsDispatch = typeof store.dispatch;
 export function useActionsDispatch(): ActionsDispatch {
   return useDispatch<ActionsDispatch>();
 }
-

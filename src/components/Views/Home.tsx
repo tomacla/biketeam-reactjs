@@ -1,18 +1,16 @@
 import { useSref } from '@uirouter/react';
+import { LinkProps } from '@uirouter/react/lib/hooks/useSref';
 import React, { FC, memo, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { Team } from '../../redux/interfaces';
 import { selectTeams } from '../../redux/selectors';
 import { actions, useActionsDispatch } from '../../redux/store';
 import { DEFAULT_TITLE } from '../common/constants';
 import { useLoadTeams } from '../common/hooks';
 import TeamList from '../Teams/TeamList';
 import { ViewContainer } from './common';
-
-const HomeContainer = styled(ViewContainer)`
-
-`
 
 const List = styled.ul`
 list-style-type: none;
@@ -40,8 +38,12 @@ const ExploreLink = styled.h6`
 margin-bottom: 24px;
 `;
 
-const Home: FC = () => {
-  //TODO: add hook
+interface HomePropsResult {
+  teams: Team[],
+  goToTeams: LinkProps
+}
+
+function useHomeProps() : HomePropsResult {
   const dispatch = useActionsDispatch()
   const teams = useSelector(selectTeams);
   const goToTeams = useSref('teams');
@@ -51,8 +53,16 @@ const Home: FC = () => {
     dispatch(actions.clearTeamDetails())
     document.title = DEFAULT_TITLE;
   }, [dispatch])
+  return {
+    teams,
+    goToTeams
+  }
+}
+
+const Home: FC = () => {
+  const {teams, goToTeams} = useHomeProps();
   return (
-    <HomeContainer>
+    <ViewContainer>
       <Title>Un site unique pour les groupes de vélo</Title>
       <LineDivider />
       <List>
@@ -64,9 +74,13 @@ const Home: FC = () => {
       <Button variant="secondary">Créer mon groupe !</Button>
       <LineDivider />
       <h5>Déjà sur Biketeam</h5>
-      <ExploreLink><a className='link-secondary' {...goToTeams}>Explorer les groupes</a></ExploreLink>
+      <ExploreLink>
+        <a className='link-secondary' {...goToTeams}>
+          Explorer les groupes
+        </a>
+      </ExploreLink>
       <TeamList teams={teams} />
-    </HomeContainer>)
+    </ViewContainer>)
 }
 
 export default memo(Home);
