@@ -28,7 +28,7 @@ export const useRidesProps = (): RidesPropsResults => {
     params: { teamId },
   } = useCurrentStateAndParams();
   useEffect(() => {
-    dispatch(actions.getTeamTripsAsync({ teamId }))
+    dispatch(actions.getTeamTripsAsync({ teamId }));
   }, [dispatch, teamId]);
   const trips = useMemoizedSelector(selectTeamTrips);
   const handleSubmitForm =  useCallback((event: React.ChangeEvent<HTMLFormElement>) => {

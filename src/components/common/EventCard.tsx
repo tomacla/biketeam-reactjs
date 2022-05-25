@@ -97,10 +97,10 @@ function toBadgeColor(badge: string): string | undefined {
   }[badge.toUpperCase()]
 }
 
-function useEventLink(type: EventType, id: string): LinkProps | undefined {
+function useEventLink(type: EventType, eventId: string, teamId: string): LinkProps | undefined {
   return {
-    TRIP: useSref('trip', { tripId: id }),
-    RIDE: useSref('ride', { rideId: id }),
+    TRIP: useSref('trip', { tripId: eventId, teamId }),
+    RIDE: useSref('ride', { rideId: eventId, teamId }),
     PUBLICATION: undefined
   }[type]
 }
@@ -139,7 +139,7 @@ const EventCard: FC<EventProps> = (
     id,
     endDate
   }) => {
-  const goToEvent = useEventLink(type, id)
+  const goToEvent = useEventLink(type, id, teamId)
   return (
     <EventCardContainer>
       <CardHeader className='text-end'>{toTypeTitle(type)}publié {moment(publishedAt).locale('fr').fromNow()}</CardHeader>

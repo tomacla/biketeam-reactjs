@@ -15,21 +15,25 @@ import Trip from './components/Views/Trip';
 import Rides from './components/Views/Rides';
 import Trips from './components/Views/Trips';
 import Maps from './components/Views/Maps';
+import Map from './components/Views/Map';
 
 const homeState = { name: 'home', url: '/', component: Home };
 const teamsState = { name: 'teams', url: '/teams', component: Teams };
 const homeTeamState = { name: 'homeTeam', url: '/{teamId:[^/]*}', component: HomeTeam };
-const rideState = { name: 'ride', url: '/rides/{rideId:[^/]*}', component: Ride };
-const tripState = { name: 'trip', url: '/trips/{tripId:[^/]*}', component: Trip };
 const tripsState = { name: 'trips', url: '/{teamId:[^/]*}/trips', component: Trips };
 const ridesState = { name: 'rides', url: '/{teamId:[^/]*}/rides', component: Rides };
 const mapsState = { name: 'maps', url: '/{teamId:[^/]*}/maps', component: Maps };
+const rideState = { name: 'ride', url: '/{teamId:[^/]*}/rides/{rideId:[^/]*}', component: Ride };
+const tripState = { name: 'trip', url: '/{teamId:[^/]*}/trips/{tripId:[^/]*}', component: Trip };
+const mapState = { name: 'map', url: '/{teamId:[^/]*}/maps/{mapId:[^/]*}', component: Map };
 
 ReactDOM.render(
   <React.StrictMode>
     <StoreProvider>
       <UIRouter plugins={[pushStateLocationPlugin]}
-        states={[homeState, teamsState, homeTeamState, rideState, tripState, tripsState, ridesState, mapsState]} >
+        states={
+          [homeState, teamsState, homeTeamState, rideState, tripState, tripsState, ridesState, mapsState, mapState]
+        } >
         <App />
       </UIRouter>
     </StoreProvider >

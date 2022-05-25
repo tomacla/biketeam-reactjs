@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { BikeTeamState, Country, NavItem, Team, TeamConfiguration, TeamEvent, TeamMemberApi, TeamRide, TeamTrip } from './interfaces';
+import { BikeTeamState, Country, NavItem, Team, TeamConfiguration, TeamEvent, TeamMemberApi, TeamRide, TeamTrip, Map } from './interfaces';
 
 export function onGetTeamsPending(): void {}
 export function onGetTeamsRejected(): void {}
@@ -61,6 +61,24 @@ export function onGetTeamRidesFullfilled(state: BikeTeamState, { payload: rides 
 
 export function onGetTeamTripsPending(): void {}
 export function onGetTeamTripsRejected(): void {}
-export function onGetTeamTripsFullfilled(state: BikeTeamState, { payload: rides }: PayloadAction<TeamTrip[]>): void {
-  state.entities.team.trips = rides;
+export function onGetTeamTripsFullfilled(state: BikeTeamState, { payload: trips }: PayloadAction<TeamTrip[]>): void {
+  state.entities.team.trips = trips;
+}
+
+export function onGetTeamRidePending(): void {}
+export function onGetTeamRideRejected(): void {}
+export function onGetTeamRideFullfilled(state: BikeTeamState, { payload: ride }: PayloadAction<TeamRide>): void {
+  state.entities.team.ride = ride;
+}
+
+export function onGetTeamTripPending(): void {}
+export function onGetTeamTripRejected(): void {}
+export function onGetTeamTripFullfilled(state: BikeTeamState, { payload: trip }: PayloadAction<TeamTrip>): void {
+  state.entities.team.trip = trip;
+}
+
+export function onGetTeamMapsPending(): void {}
+export function onGetTeamMapsRejected(): void {}
+export function onGetTeamMapsFullfilled(state: BikeTeamState, { payload: maps }: PayloadAction<Map[]>): void {
+  state.entities.team.maps = maps;
 }
