@@ -9,6 +9,7 @@ interface MapButtonGroupProps {
   teamId: string,
   mapId: string,
   fileName: string
+  small: boolean
 }
 
 const Container = styled(ButtonGroup)`
@@ -27,23 +28,30 @@ const MapIcon = styled.i.attrs({
 margin-right: 4px;
 `;
 
-const Button = styled.a.attrs({className: 'btn btn-light', role: 'button'})``;
+interface ButtonProps {
+  type: string;
+}
 
-const MapButtonGroup: FC<MapButtonGroupProps> = ({teamId, mapId, fileName}) => {
+const Button = styled.a.attrs<ButtonProps>(({ type }) =>
+  ({ className: type=== 'button' ? 'btn btn-outline-secondary btn-sm' : 'btn btn-light', role: 'button' }))``;
+
+
+
+const MapButtonGroup: FC<MapButtonGroupProps> = ({ teamId, mapId, fileName, small }) => {
   const downloadGpx = `${API_URL}/${teamId}/maps/${mapId}/gpx`
   const downloadFit = `${API_URL}/${teamId}/maps/${mapId}/fit`
   const goToMap = useSref('map', { teamId, mapId });
   return (
     <Container>
-      <Button href={downloadGpx} download={`${fileName}.gpx`}>
+      <Button type={small ? 'button' : 'link'} href={downloadGpx} download={`${fileName}.gpx`}>
         <DownloadIcon />
         {'GPX'}
       </Button>
-      <Button href={downloadFit} download={`${fileName}.fit`}>
+      <Button type={small ? 'button' : 'link'} href={downloadFit} download={`${fileName}.fit`}>
         <DownloadIcon />
         {'FIT'}
       </Button>
-      <Button {...goToMap}>
+      <Button type={small ? 'button' : 'link'} {...goToMap}>
         <MapIcon />
         {'Voir'}
       </Button>
