@@ -82,3 +82,9 @@ export function onGetTeamMapsRejected(): void {}
 export function onGetTeamMapsFullfilled(state: BikeTeamState, { payload: maps }: PayloadAction<Map[]>): void {
   state.entities.team.maps = maps;
 }
+
+export function onGetTeamMapPending(): void {}
+export function onGetTeamMapRejected(): void {}
+export function onGetTeamMapFullfilled(state: BikeTeamState, { payload: map }: PayloadAction<Map>): void {
+  state.entities.team.map = map;
+}

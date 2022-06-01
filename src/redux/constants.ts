@@ -5,9 +5,9 @@ export const INITIAL_BIKETEAM_STATE: BikeTeamState = {
     teams: [],
     data: {
       countries: [],
-      windDirection: ['NORTH', 'NORTH_EAST', 'EAST', 'SOUTH_EAST', 'SOUTH', 'SOUTH_WEST', 'WEST', 'NORTH_WEST'] ,
-      mapSort: ['SHORT', 'LONG', 'HILLY', 'FLAT'],
-      mapType: ['ROAD', 'GRAVEL', 'MTB']
+      windDirections: ['NORTH', 'NORTH_EAST', 'EAST', 'SOUTH_EAST', 'SOUTH', 'SOUTH_WEST', 'WEST', 'NORTH_WEST'] ,
+      mapSorts: ['SHORT', 'LONG', 'HILLY', 'FLAT'],
+      mapTypes: ['ROAD', 'GRAVEL', 'MTB']
     },
     team: {
       details: undefined,

@@ -51,8 +51,6 @@ export const useRideProps = (): RidePropsResults => {
   }
 }
 
-
-
 const Ride: FC = () => {
   const { ride } = useRideProps();
   return (

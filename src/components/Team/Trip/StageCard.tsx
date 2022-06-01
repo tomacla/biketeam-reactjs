@@ -45,19 +45,17 @@ const StageCard: FC<StageCardProps> = (
     <MapCardContainer>
       <Card.Body>
         <Title>{name}</Title>
-        <Card.Text>
-          <MeetingTime>
-            {moment(date).format('LL')}
-          </MeetingTime>
-          <MapCard
-            mapId={mapId}
-            teamId={teamId}
-            distance={distance}
-            positiveElevation={postiveElevation}
-            negativeElevation={negativeElevation}
-            fileName={`todo-${name}`}
-          />
-        </Card.Text>
+        <MeetingTime>
+          {moment(date).format('LL')}
+        </MeetingTime>
+        <MapCard
+          mapId={mapId}
+          teamId={teamId}
+          distance={distance}
+          positiveElevation={postiveElevation}
+          negativeElevation={negativeElevation}
+          fileName={`todo-${name}`}
+        />
       </Card.Body>
     </MapCardContainer>
   )

@@ -1,127 +1,93 @@
-import axios from 'axios';
-import { Country, Team, TeamEvent, TeamMemberApi, TeamRide, TeamTrip, Map } from './interfaces';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  getCountries,
+  getTeamDetails,
+  getTeamEvents,
+  getTeamMap,
+  getTeamMaps,
+  getTeamMembers,
+  getTeamRide,
+  getTeamRides,
+  getTeams,
+  getTeamTrip,
+  getTeamTrips,
+} from './api';
 
-const API_URL = 'https://staging.biketeam.info/api';
-const DEFAULT_PAGE_SIZE = '10';
-const DEFAULT_PAGE = '0';
+export const getTeamsAsync = createAsyncThunk(
+  'getTeamsAsync',
+  ({ name, city, country, pageSize }: { name?: string; city?: string; country?: string; pageSize?: string }) =>
+    getTeams(name, city, country, pageSize)
+);
 
-export async function getTeams(name?: string, city?: string, country?: string, pageSize?: string): Promise<Team[]> {
-  const config = {
-    headers: { 'Content-Type': 'application/json' },
-    params: {
-      name: name,
-      city: city,
-      country: country,
-      pageSize: pageSize || DEFAULT_PAGE_SIZE,
-      page: DEFAULT_PAGE,
-    },
-  };
-  const { data: result } = await axios.get(`${API_URL}/teams`, config);
-  return result;
-}
+export const getCountriesAsync = createAsyncThunk('getCountries', getCountries);
+export const getTeamDetailsAsync = createAsyncThunk('getTeamDetails', ({ teamId }: { teamId: string }) =>
+  getTeamDetails(teamId)
+);
 
-export async function getCountries(): Promise<Country[]> {
-  const config = {
-    headers: { 'Content-Type': 'application/json' },
-  };
-  const { data: countries } = await axios.get(`${API_URL}/data/countries`, config);
-  return countries;
-}
+export const getTeamMembersAsync = createAsyncThunk('getTeamMembers', ({ teamId }: { teamId: string }) =>
+  getTeamMembers(teamId)
+);
 
-export async function getTeamDetails(teamId: string): Promise<Team> {
-  const config = {
-    headers: { 'Content-Type': 'application/json' },
-  };
-  const { data: team } = await axios.get(`${API_URL}/teams/${teamId}`, config);
-  return team;
-}
+export const getTeamEventsAsync = createAsyncThunk('getTeamEvents', ({ teamId }: { teamId: string }) =>
+  getTeamEvents(teamId)
+);
 
-export async function getTeamMembers(teamId: string): Promise<TeamMemberApi[]> {
-  const config = {
-    headers: { 'Content-Type': 'application/json' },
-  };
-  const { data: members } = await axios.get(`${API_URL}/teams/${teamId}/members`, config);
-  return members;
-}
+export const getTeamRidesAsync = createAsyncThunk(
+  'getTeamRides',
+  ({ teamId, from, to }: { teamId: string; from?: Date; to?: Date }) => getTeamRides(teamId, from, to)
+);
+export const getTeamTripsAsync = createAsyncThunk(
+  'getTeamTrips',
+  ({ teamId, from, to }: { teamId: string; from?: Date; to?: Date }) => getTeamTrips(teamId, from, to)
+);
 
-export async function getTeamEvents(teamId: string): Promise<TeamEvent[]> {
-  const config = {
-    headers: { 'Content-Type': 'application/json' },
-  };
-  const { data: members } = await axios.get(`${API_URL}/teams/${teamId}/feed`, config);
-  return members;
-}
+export const getTeamRideAsync = createAsyncThunk(
+  'getTeamRide',
+  ({ teamId, rideId }: { teamId: string; rideId: string }) => getTeamRide(teamId, rideId)
+);
 
-export async function getTeamRides(teamId: string, from?: Date, to?: Date): Promise<TeamRide[]> {
-  const config = {
-    headers: { 'Content-Type': 'application/json' },
-    params: {
-      from: from,
-      to: to,
-      pageSize: DEFAULT_PAGE_SIZE,
-      page: DEFAULT_PAGE,
-    },
-  };
-  const { data: result } = await axios.get(`${API_URL}/teams/${teamId}/rides`, config);
-  return result;
-}
+export const getTeamTripAsync = createAsyncThunk(
+  'getTeamTrip',
+  ({ teamId, tripId }: { teamId: string; tripId: string }) => getTeamTrip(teamId, tripId)
+);
 
-export async function getTeamTrips(teamId: string, from?: Date, to?: Date): Promise<TeamTrip[]> {
-  const config = {
-    headers: { 'Content-Type': 'application/json' },
-    params: {
-      from: from,
-      to: to,
-      pageSize: DEFAULT_PAGE_SIZE,
-      page: DEFAULT_PAGE,
-    },
-  };
-  const { data: result } = await axios.get(`${API_URL}/teams/${teamId}/trips`, config);
-  return result;
-}
+export const getTeamMapsAsync = createAsyncThunk(
+  'getTeamMaps',
+  ({
+    teamId,
+    lowerDistance,
+    upperDistance,
+    lowerPositiveElevation,
+    upperPositiveElevation,
+    sort,
+    windDirection,
+    type,
+    tags,
+  }: {
+    teamId: string;
+    lowerDistance?: number;
+    upperDistance?: number;
+    lowerPositiveElevation?: number;
+    upperPositiveElevation?: number;
+    sort?: string;
+    windDirection?: string;
+    type?: string;
+    tags?: string[];
+  }) =>
+    getTeamMaps(
+      teamId,
+      lowerDistance,
+      upperDistance,
+      lowerPositiveElevation,
+      upperPositiveElevation,
+      sort,
+      windDirection,
+      type,
+      tags
+    )
+);
 
-export async function getTeamRide(teamId: string, rideId: string): Promise<TeamRide> {
-  const config = {
-    headers: { 'Content-Type': 'application/json' },
-  };
-  const { data: ride } = await axios.get(`${API_URL}/teams/${teamId}/rides/${rideId}`, config);
-  return ride;
-}
-
-export async function getTeamTrip(teamId: string, tripId: string): Promise<TeamTrip> {
-  const config = {
-    headers: { 'Content-Type': 'application/json' },
-  };
-  const { data: trip } = await axios.get(`${API_URL}/teams/${teamId}/trips/${tripId}`, config);
-  return trip;
-}
-
-export async function getTeamMaps(
-  teamId: string,
-  lowerDistance?: number,
-  upperDistance?: number,
-  lowerPositiveElevation?: number,
-  upperPositiveElevation?: number,
-  sort?: string,
-  windDirection?: string,
-  type?: string,
-  tags?: string[]
-): Promise<Map[]> {
-  const config = {
-    headers: { 'Content-Type': 'application/json' },
-    params: {
-      lowerDistance: lowerDistance || 20,
-      upperDistance: upperDistance || 200,
-      lowerPositiveElevation: lowerPositiveElevation || 100,
-      upperPositiveElevation: upperPositiveElevation || 1000,
-      sort: sort,
-      windDirection: windDirection,
-      type: type,
-      tags: tags,
-      pageSize: DEFAULT_PAGE_SIZE,
-      page: DEFAULT_PAGE,
-    },
-  };
-  const { data: result } = await axios.get(`${API_URL}/teams/${teamId}/maps`, config);
-  return result;
-}
+export const getTeamMapAsync = createAsyncThunk(
+  'getTeamMap',
+  ({ teamId, mapId }: { teamId: string; mapId: string }) => getTeamMap(teamId, mapId)
+);

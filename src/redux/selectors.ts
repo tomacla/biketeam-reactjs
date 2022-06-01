@@ -48,3 +48,21 @@ export function selectTeamMaps(state: BikeTeamState): Map[]{
   return state.entities.team.maps;
 }
 
+export function selectDataWindDirections(state: BikeTeamState): string[] {
+  return state.entities.data.windDirections;
+}
+
+export function selectDataMapTypes(state: BikeTeamState): string[] {
+  return state.entities.data.mapTypes;
+}
+
+
+export function selectDataMapSorts(state: BikeTeamState): string[] {
+  return state.entities.data.mapSorts;
+}
+
+export function selectTeamMap(state: BikeTeamState): Map | undefined{
+  return state.entities.team.map;
+}
+
+

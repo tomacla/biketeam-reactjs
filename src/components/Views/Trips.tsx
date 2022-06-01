@@ -4,18 +4,11 @@ import { TeamTrip } from '../../redux/interfaces';
 import { selectTeamTrips } from '../../redux/selectors';
 import { actions, useActionsDispatch } from '../../redux/store';
 import { useMemoizedSelector } from '../../redux/useMemoizedSelector';
-import { ViewContainer } from './common';
-import TripList from '../Team/Trip/TripList'
 import PeriodFilterForm from '../common/PeriodFilterForm';
+import TripList from '../Team/Trip/TripList';
 import { SubmitFormHandler } from '../Teams/interfaces';
-import styled from 'styled-components';
+import { FormContainer, ViewContainer } from './common';
 
-const TripFormContainer = styled.div`
-  margin: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 interface RidesPropsResults {
   trips: TeamTrip[];
@@ -52,9 +45,9 @@ const Trips: FC = () => {
   const {trips, handleSubmitForm} = useRidesProps();
   return (
     <ViewContainer>
-      <TripFormContainer>
+      <FormContainer>
         <PeriodFilterForm onSubmit={handleSubmitForm}/>
-      </TripFormContainer>
+      </FormContainer>
       <TripList trips={trips}/>
     </ViewContainer>)
 }

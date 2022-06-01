@@ -1,3 +1,4 @@
+import { useSref } from '@uirouter/react';
 import moment from 'moment';
 import 'moment/locale/fr';
 import { FC, memo } from 'react';
@@ -29,7 +30,14 @@ const PostedAt = styled.div`
   color: #6c757d;
 `;
 
-const Title = styled.h5`
+const Title = styled.a`
+ color: black;
+ font-size: 1.25rem;
+ font-weight: 500;
+ line-height: 1.2;
+ &:hover{
+   color: #6c757d;
+ }
 `
 
 interface MapListItemProps {
@@ -41,11 +49,12 @@ const MapListItem: FC<MapListItemProps> = (
     map
   }) => {
   const { length, positiveElevation, negativeElevation, id, teamId, postedAt, name } = map;
+  const goToMap = useSref('map', {teamId, mapId: id});
   return (
     <MapListItemContainer>
       <EventImage alt='carte du groupe' src={`${API_URL}/${teamId}/maps/${id}/image`} />
       <Card.Body>
-        <Title>{name}</Title>
+        <Title {...goToMap}>{name}</Title>
         <MapDataItem length={length} positiveElevation={positiveElevation} negativeElevation={negativeElevation}/>
       </Card.Body>
       <Footer>
