@@ -1,5 +1,16 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { BikeTeamState, Country, NavItem, Team, TeamConfiguration, TeamEvent, TeamMemberApi, TeamRide, TeamTrip, Map } from './interfaces';
+import {
+  BikeTeamState,
+  Country,
+  NavItem,
+  Team,
+  TeamConfiguration,
+  TeamEvent,
+  TeamMemberApi,
+  TeamRide,
+  TeamTrip,
+  Map,
+} from './interfaces';
 
 export function onGetTeamsPending(): void {}
 export function onGetTeamsRejected(): void {}
@@ -25,14 +36,14 @@ function toNavItems(configuration: TeamConfiguration): NavItem[] {
     navItems.push('trips');
   }
   navItems.push('maps');
-  return navItems
+  return navItems;
 }
 
 export function onGetTeamDetailsPending(): void {}
 export function onGetTeamDetailsRejected(): void {}
 export function onGetTeamDetailsFullfilled(state: BikeTeamState, { payload: team }: PayloadAction<Team>): void {
   state.entities.team.details = team;
-  state.ui.navitems = toNavItems(team.configuration)
+  state.ui.navitems = toNavItems(team.configuration);
 }
 export function onClearTeamDetails(state: BikeTeamState): void {
   state.entities.team.details = undefined;
@@ -79,12 +90,22 @@ export function onGetTeamTripFullfilled(state: BikeTeamState, { payload: trip }:
 
 export function onGetTeamMapsPending(): void {}
 export function onGetTeamMapsRejected(): void {}
-export function onGetTeamMapsFullfilled(state: BikeTeamState, { payload: maps }: PayloadAction<Map[]>): void {
-  state.entities.team.maps = maps;
+export function onGetTeamMapsFullfilled(
+  state: BikeTeamState,
+  { payload }: PayloadAction<{ maps: Map[]; nbPages: string }>
+): void {
+  state.entities.team.maps = payload.maps;
+  state.entities.team.nbPages = parseInt(payload.nbPages);
 }
 
 export function onGetTeamMapPending(): void {}
 export function onGetTeamMapRejected(): void {}
 export function onGetTeamMapFullfilled(state: BikeTeamState, { payload: map }: PayloadAction<Map>): void {
   state.entities.team.map = map;
+}
+
+export function onGetTeamTagsPending(): void {}
+export function onGetTeamTagsRejected(): void {}
+export function onGetTeamTagsFullfilled(state: BikeTeamState, { payload: tags }: PayloadAction<string[]>): void {
+  state.entities.team.tags = tags;
 }

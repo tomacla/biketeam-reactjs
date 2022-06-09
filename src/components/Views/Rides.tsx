@@ -1,13 +1,14 @@
-import { useCurrentStateAndParams } from '@uirouter/react';
 import React, { FC, memo, useCallback, useEffect } from 'react';
 import { TeamRide } from '../../redux/interfaces';
 import { selectTeamRides } from '../../redux/selectors';
 import { actions, useActionsDispatch } from '../../redux/store';
 import { useMemoizedSelector } from '../../redux/useMemoizedSelector';
+import { useTeamId } from '../common/hooks';
 import PeriodFilterForm from '../common/PeriodFilterForm';
 import RideList from '../Team/Ride/RideList';
 import { SubmitFormHandler } from '../Teams/interfaces';
 import { FormContainer, ViewContainer } from './common';
+
 interface RidesPropsResults {
   rides: TeamRide[];
   handleSubmitForm: SubmitFormHandler;
@@ -15,24 +16,23 @@ interface RidesPropsResults {
 
 export const useRidesProps = (): RidesPropsResults => {
   const dispatch = useActionsDispatch();
-  const {
-    params: { teamId },
-  } = useCurrentStateAndParams();
+  const teamId = useTeamId();
   useEffect(() => {
-    // dispatch(actions.getTeamDetailsAsync({ teamId }));
-    dispatch(actions.getTeamRidesAsync({ teamId }))
+    if (teamId) dispatch(actions.getTeamRidesAsync({ teamId }))
   }, [dispatch, teamId]);
   const rides = useMemoizedSelector(selectTeamRides);
   const handleSubmitForm = useCallback((event: React.ChangeEvent<HTMLFormElement>) => {
     const form = event.currentTarget
     event.preventDefault()
     event.stopPropagation()
-    dispatch(actions.getTeamRidesAsync(
-      {
-        teamId,
-        from: form.elements['from'].value,
-        to: form.elements['to'].value,
-      }))
+    if (teamId) {
+      dispatch(actions.getTeamRidesAsync(
+        {
+          teamId,
+          from: form.elements['from'].value,
+          to: form.elements['to'].value,
+        }))
+    }
   }, [dispatch, teamId])
   return {
     rides,

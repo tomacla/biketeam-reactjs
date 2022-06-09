@@ -11,8 +11,9 @@ align-items: center;
 
 const TeamLogo = styled(Card.Img)`
 padding: 8px;
-width: 180px;
+width: 100%;
 height: 180px;
+object-fit: fill;
 `
 
 const TeamBody = styled(Card.Body)`

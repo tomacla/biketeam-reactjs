@@ -1,13 +1,13 @@
 import { useSref } from '@uirouter/react';
 import { LinkProps } from '@uirouter/react/lib/hooks/useSref';
 import moment from 'moment';
-import 'moment/locale/fr';
 import { FC, memo, ReactNode } from 'react';
 import { Button, Card, Col, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { EventType } from '../../redux/interfaces';
 import { API_URL } from '../common/constants';
 import BadgeList from './BadgeList';
+import { toFormatedDate } from './Date';
 
 const EventCardContainer = styled(Card)`
   margin: 8px 0 8px 0;
@@ -87,8 +87,8 @@ function useEventLink(type: EventType, eventId: string, teamId: string): LinkPro
 
 function toEventDate(type: EventType, date?: Date, endDate?: Date): string {
   return {
-    TRIP: 'Du ' + moment(date).format('LL') + ' au ' + moment(endDate).format('LL'),
-    RIDE: moment(date).format('LL'),
+    TRIP: 'Du ' + toFormatedDate(date) + ' au ' + toFormatedDate(endDate),
+    RIDE: toFormatedDate(date),
     PUBLICATION: ''
   }[type]
 }

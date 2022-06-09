@@ -1,11 +1,10 @@
 import { useSref } from '@uirouter/react';
-import moment from 'moment';
-import 'moment/locale/fr';
 import { FC, memo } from 'react';
 import { Card } from 'react-bootstrap';
 import styled from 'styled-components';
 import { Map } from '../../../redux/interfaces';
 import { API_URL } from '../../common/constants';
+import { toFormatedDate } from '../../common/Date';
 import MapButtonGroup from '../../common/MapButtonGroup';
 import MapDataItem from '../../common/MapDataItem';
 
@@ -58,7 +57,7 @@ const MapListItem: FC<MapListItemProps> = (
         <MapDataItem length={length} positiveElevation={positiveElevation} negativeElevation={negativeElevation}/>
       </Card.Body>
       <Footer>
-        <PostedAt>{moment(postedAt).format('LL')}</PostedAt>
+        <PostedAt>{toFormatedDate(postedAt)}</PostedAt>
         <MapButtonGroup small mapId={id} teamId={teamId} fileName={'fileName'} />
       </Footer>
     </MapListItemContainer>

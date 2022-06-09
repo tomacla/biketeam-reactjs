@@ -56,13 +56,20 @@ export function selectDataMapTypes(state: BikeTeamState): string[] {
   return state.entities.data.mapTypes;
 }
 
-
 export function selectDataMapSorts(state: BikeTeamState): string[] {
   return state.entities.data.mapSorts;
 }
 
 export function selectTeamMap(state: BikeTeamState): Map | undefined{
   return state.entities.team.map;
+}
+
+export function selectNbPages(state: BikeTeamState): number{
+  return state.entities.team.nbPages;
+}
+
+export function selectTeamTags(state: BikeTeamState): string[]{
+  return state.entities.team.tags;
 }
 
 

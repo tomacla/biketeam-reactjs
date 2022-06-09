@@ -17,11 +17,14 @@ export interface BikeTeamStateEntitiesTeam {
   rides: TeamRide[];
   trips: TeamTrip[];
   maps: Map[];
+  tags: string[];
+  nbPages: number;
   details?: Team;
   ride?: TeamRide;
   trip?: TeamTrip;
   map?: Map;
 }
+
 export interface BikeTeamStateEntities {
   teams: Team[];
   data: BikeTeamStateEntitiesData;

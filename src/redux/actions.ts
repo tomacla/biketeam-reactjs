@@ -9,6 +9,7 @@ import {
   getTeamRide,
   getTeamRides,
   getTeams,
+  getTeamTags,
   getTeamTrip,
   getTeamTrips,
 } from './api';
@@ -63,8 +64,10 @@ export const getTeamMapsAsync = createAsyncThunk(
     windDirection,
     type,
     tags,
+    page
   }: {
     teamId: string;
+    page: number;
     lowerDistance?: number;
     upperDistance?: number;
     lowerPositiveElevation?: number;
@@ -76,6 +79,7 @@ export const getTeamMapsAsync = createAsyncThunk(
   }) =>
     getTeamMaps(
       teamId,
+      page,
       lowerDistance,
       upperDistance,
       lowerPositiveElevation,
@@ -90,4 +94,9 @@ export const getTeamMapsAsync = createAsyncThunk(
 export const getTeamMapAsync = createAsyncThunk(
   'getTeamMap',
   ({ teamId, mapId }: { teamId: string; mapId: string }) => getTeamMap(teamId, mapId)
+);
+
+export const getTeamTagsAsync = createAsyncThunk(
+  'getTeamTags',
+  ({ teamId }: { teamId: string }) => getTeamTags(teamId)
 );

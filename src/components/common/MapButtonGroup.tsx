@@ -1,5 +1,4 @@
 import { useSref } from '@uirouter/react';
-import 'moment/locale/fr';
 import { FC, memo } from 'react';
 import { ButtonGroup } from 'react-bootstrap';
 import styled from 'styled-components';

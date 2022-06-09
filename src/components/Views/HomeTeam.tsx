@@ -1,4 +1,3 @@
-import { useCurrentStateAndParams } from '@uirouter/react';
 import { FC, memo, useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
@@ -7,6 +6,7 @@ import { selectTeamDetails, selectTeamEvents, selectTeamMembers } from '../../re
 import { actions, useActionsDispatch } from '../../redux/store';
 import { useMemoizedSelector } from '../../redux/useMemoizedSelector';
 import { DEFAULT_TITLE } from '../common/constants';
+import { useTeamId } from '../common/hooks';
 import Details from '../Team/Details';
 import Events from '../Team/Event/EventList';
 import HeatMap from '../Team/HeatMap';
@@ -37,14 +37,13 @@ interface HomeTeamPropsResults {
 
 const useHomeTeamProps = (): HomeTeamPropsResults => {
   const dispatch = useActionsDispatch()
-  const {
-    params: { teamId },
-  } = useCurrentStateAndParams();
+  const teamId = useTeamId();
   useEffect(() => {
     if (teamId) {
-      // dispatch(actions.getTeamDetailsAsync({ teamId }));
+      dispatch(actions.getTeamDetailsAsync({ teamId }));
       dispatch(actions.getTeamMembersAsync({ teamId }));
       dispatch(actions.getTeamEventsAsync({ teamId }));
+      dispatch(actions.getTeamTagsAsync({ teamId }));
     }
   }, [dispatch, teamId])
   const team = useMemoizedSelector(selectTeamDetails);

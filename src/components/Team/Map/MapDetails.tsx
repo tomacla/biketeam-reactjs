@@ -1,8 +1,8 @@
-import moment from 'moment';
 import { FC, memo } from 'react';
 import styled from 'styled-components';
 import { Map } from '../../../redux/interfaces';
 import BadgeList from '../../common/BadgeList';
+import { toFormatedDate } from '../../common/Date';
 import MapButtonGroup from '../../common/MapButtonGroup';
 import MapDataItem from '../../common/MapDataItem';
 import { ContentContainer } from '../common';
@@ -29,7 +29,7 @@ const MapDetails: FC<MapDetailsProps> = ({ map }) => {
       <Title>
         {name}
       </Title>
-      <Date>Ajouté le {moment(postedAt).format('LL')}</Date>
+      <Date>Ajouté le {toFormatedDate(postedAt)}</Date>
       <MapDataItem length={length} positiveElevation={positiveElevation} negativeElevation={negativeElevation} />
       <BadgeList badges={tags} />
       <MapButtonGroup teamId={teamId} mapId={id} fileName={'todo'} small={true} />

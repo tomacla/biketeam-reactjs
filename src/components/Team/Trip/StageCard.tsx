@@ -1,8 +1,7 @@
-import moment from 'moment';
-import 'moment/locale/fr';
 import { FC, memo } from 'react';
 import { Card } from 'react-bootstrap';
 import styled from 'styled-components';
+import { toFormatedDate } from '../../common/Date';
 import MapCard from '../../common/MapCard';
 
 const MapCardContainer = styled(Card)`
@@ -46,7 +45,7 @@ const StageCard: FC<StageCardProps> = (
       <Card.Body>
         <Title>{name}</Title>
         <MeetingTime>
-          {moment(date).format('LL')}
+          {toFormatedDate(date)}
         </MeetingTime>
         <MapCard
           mapId={mapId}

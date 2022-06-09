@@ -10,6 +10,7 @@ import {
   getTeamRideAsync,
   getTeamRidesAsync,
   getTeamsAsync,
+  getTeamTagsAsync,
   getTeamTripAsync,
   getTeamTripsAsync,
 } from './actions';
@@ -43,6 +44,9 @@ import {
   onGetTeamsFullfilled,
   onGetTeamsPending,
   onGetTeamsRejected,
+  onGetTeamTagsFullfilled,
+  onGetTeamTagsPending,
+  onGetTeamTagsRejected,
   onGetTeamTripFullfilled,
   onGetTeamTripPending,
   onGetTeamTripRejected,
@@ -93,7 +97,10 @@ const actionsSlice = createSlice({
       .addCase(getTeamMapsAsync.rejected, onGetTeamMapsRejected)
       .addCase(getTeamMapAsync.fulfilled, onGetTeamMapFullfilled)
       .addCase(getTeamMapAsync.pending, onGetTeamMapPending)
-      .addCase(getTeamMapAsync.rejected, onGetTeamMapRejected),
+      .addCase(getTeamMapAsync.rejected, onGetTeamMapRejected)
+      .addCase(getTeamTagsAsync.fulfilled, onGetTeamTagsFullfilled)
+      .addCase(getTeamTagsAsync.pending, onGetTeamTagsPending)
+      .addCase(getTeamTagsAsync.rejected, onGetTeamTagsRejected),
 });
 
 export const actions = {
@@ -108,7 +115,8 @@ export const actions = {
   getTeamTripAsync,
   getTeamRideAsync,
   getTeamMapsAsync,
-  getTeamMapAsync
+  getTeamMapAsync,
+  getTeamTagsAsync
 };
 
 const { reducer } = actionsSlice;

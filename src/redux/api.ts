@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Country, Team, TeamEvent, TeamMemberApi, TeamRide, TeamTrip, Map } from './interfaces';
 
 const API_URL = 'https://staging.biketeam.info/api';
-const DEFAULT_PAGE_SIZE = '10';
+const DEFAULT_PAGE_SIZE = '9';
 const DEFAULT_PAGE = '0';
 
 export async function getTeams(name?: string, city?: string, country?: string, pageSize?: string): Promise<Team[]> {
@@ -98,6 +98,7 @@ export async function getTeamTrip(teamId: string, tripId: string): Promise<TeamT
 
 export async function getTeamMaps(
   teamId: string,
+  page: number,
   lowerDistance?: number,
   upperDistance?: number,
   lowerPositiveElevation?: number,
@@ -106,24 +107,23 @@ export async function getTeamMaps(
   windDirection?: string,
   type?: string,
   tags?: string[]
-): Promise<Map[]> {
-  const config = {
+): Promise<{ maps: Map[]; nbPages: string }> {
+  const params = new URLSearchParams();
+  params.append('lowerDistance', (lowerDistance || 0).toString());
+  params.append('upperDistance', (upperDistance || 1000).toString());
+  params.append('lowerPositiveElevation', (lowerPositiveElevation || 100).toString());
+  params.append('upperPositiveElevation', (upperPositiveElevation || 1000).toString());
+  sort && params.append('sort', sort);
+  windDirection && params.append('windDirection', windDirection);
+  type && params.append('type', type);
+  params.append('pageSize', DEFAULT_PAGE_SIZE);
+  page && params.append('page', page.toString());
+  tags?.forEach(tag => params.append('tags', tag));
+  const { data: maps, headers } = await axios.get(`${API_URL}/teams/${teamId}/maps`, {
     headers: { 'Content-Type': 'application/json' },
-    params: {
-      lowerDistance: lowerDistance || 20,
-      upperDistance: upperDistance || 200,
-      lowerPositiveElevation: lowerPositiveElevation || 100,
-      upperPositiveElevation: upperPositiveElevation || 1000,
-      sort: sort,
-      windDirection: windDirection,
-      type: type,
-      tags: tags,
-      pageSize: DEFAULT_PAGE_SIZE,
-      page: DEFAULT_PAGE,
-    },
-  };
-  const { data: result } = await axios.get(`${API_URL}/teams/${teamId}/maps`, config);
-  return result;
+    params,
+  });
+  return { maps, nbPages: headers['x-pages'] };
 }
 
 export async function getTeamMap(teamId: string, mapId: string): Promise<Map> {
@@ -131,5 +131,13 @@ export async function getTeamMap(teamId: string, mapId: string): Promise<Map> {
     headers: { 'Content-Type': 'application/json' },
   };
   const { data: trip } = await axios.get(`${API_URL}/teams/${teamId}/maps/${mapId}`, config);
+  return trip;
+}
+
+export async function getTeamTags(teamId: string): Promise<string[]> {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+  };
+  const { data: trip } = await axios.get(`${API_URL}/teams/${teamId}/maps/tags`, config);
   return trip;
 }

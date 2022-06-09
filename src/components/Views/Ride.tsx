@@ -9,6 +9,7 @@ import { useMemoizedSelector } from '../../redux/useMemoizedSelector';
 import EventDetail from '../Team/Ride/RideDetail';
 import GroupCard from '../Team/Ride/GroupCard';
 import { ViewContainer } from './common';
+import { useTeamId } from '../common/hooks';
 
 const Layout = styled(Row)`
 width: 100%;
@@ -38,12 +39,14 @@ interface RidePropsResults {
 
 export const useRideProps = (): RidePropsResults => {
   const dispatch = useActionsDispatch();
+  const teamId = useTeamId();
   const {
-    params: { teamId, rideId },
+    params: { rideId },
   } = useCurrentStateAndParams();
   useEffect(() => {
-    dispatch(actions.getTeamDetailsAsync({ teamId }));
-    dispatch(actions.getTeamRideAsync({ teamId, rideId }));
+    if (teamId && rideId) {
+      dispatch(actions.getTeamRideAsync({ teamId, rideId }));
+    }
   }, [dispatch, rideId, teamId]);
   const ride = useMemoizedSelector(selectTeamRide);
   return {

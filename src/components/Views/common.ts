@@ -16,5 +16,5 @@ export const FormContainer = styled.div`
   border-radius: 0.25rem;
   padding: 0.5rem;
   border: 1px solid #dee2e6 !important;
-  width: 80%;
+  width: 100%;
 `;
