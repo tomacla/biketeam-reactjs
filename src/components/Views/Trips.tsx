@@ -1,21 +1,13 @@
-import { useCurrentStateAndParams } from '@uirouter/react';
 import React, { FC, memo, useCallback, useEffect } from 'react';
 import { TeamTrip } from '../../redux/interfaces';
 import { selectTeamTrips } from '../../redux/selectors';
 import { actions, useActionsDispatch } from '../../redux/store';
 import { useMemoizedSelector } from '../../redux/useMemoizedSelector';
-import { ViewContainer } from './common';
-import TripList from '../Team/Trip/TripList'
+import { useTeamId } from '../common/hooks';
 import PeriodFilterForm from '../common/PeriodFilterForm';
+import TripList from '../Team/Trip/TripList';
 import { SubmitFormHandler } from '../Teams/interfaces';
-import styled from 'styled-components';
-
-const TripFormContainer = styled.div`
-  margin: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+import { FormContainer, ViewContainer } from './common';
 
 interface RidesPropsResults {
   trips: TeamTrip[];
@@ -24,23 +16,23 @@ interface RidesPropsResults {
 
 export const useRidesProps = (): RidesPropsResults => {
   const dispatch = useActionsDispatch();
-  const {
-    params: { teamId },
-  } = useCurrentStateAndParams();
+  const teamId = useTeamId();
   useEffect(() => {
-    dispatch(actions.getTeamTripsAsync({ teamId }));
+    if (teamId) dispatch(actions.getTeamTripsAsync({ teamId }));
   }, [dispatch, teamId]);
   const trips = useMemoizedSelector(selectTeamTrips);
   const handleSubmitForm =  useCallback((event: React.ChangeEvent<HTMLFormElement>) => {
     const form = event.currentTarget
     event.preventDefault()
     event.stopPropagation()
-    dispatch(actions.getTeamTripsAsync(
-      {
-        teamId,
-        from: form.elements['from'].value,
-        to: form.elements['to'].value,
-      }))
+    if (teamId) {
+      dispatch(actions.getTeamTripsAsync(
+        {
+          teamId,
+          from: form.elements['from'].value,
+          to: form.elements['to'].value,
+        }))
+    }
   }, [dispatch, teamId])
   return {
     trips,
@@ -52,9 +44,9 @@ const Trips: FC = () => {
   const {trips, handleSubmitForm} = useRidesProps();
   return (
     <ViewContainer>
-      <TripFormContainer>
+      <FormContainer>
         <PeriodFilterForm onSubmit={handleSubmitForm}/>
-      </TripFormContainer>
+      </FormContainer>
       <TripList trips={trips}/>
     </ViewContainer>)
 }

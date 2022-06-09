@@ -1,7 +1,7 @@
-import moment from 'moment';
 import { FC, memo } from 'react';
 import styled from 'styled-components';
 import { API_URL } from '../../common/constants';
+import { toFormatedDate } from '../../common/Date';
 import { ContentContainer } from '../common';
 
 const Image = styled.img.attrs({
@@ -38,7 +38,7 @@ const Details: FC<DetailsProps> = ({ title, id, description, imaged, teamId, dat
       <Title>
         {title}
       </Title>
-      <Date>{moment(date).format('LL')}</Date>
+      <Date>{toFormatedDate(date)}</Date>
       {imaged ? (<Image src={`${API_URL}/${teamId}/rides/${id}/image`} alt='team-logo' />) : null}
       <p>{description}</p>
     </ContentContainer >

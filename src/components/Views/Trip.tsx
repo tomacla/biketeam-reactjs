@@ -1,5 +1,4 @@
 import { useCurrentStateAndParams } from '@uirouter/react';
-import moment from 'moment';
 import React, { FC, memo, useEffect } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import styled from 'styled-components';
@@ -8,7 +7,9 @@ import { selectTeamTrip } from '../../redux/selectors';
 import { actions, useActionsDispatch } from '../../redux/store';
 import { useMemoizedSelector } from '../../redux/useMemoizedSelector';
 import { API_URL } from '../common/constants';
+import { toFormatedDate } from '../common/Date';
 import GoButton from '../common/GoButton';
+import { useTeamId } from '../common/hooks';
 import { ContentContainer } from '../Team/common';
 import StageCard from '../Team/Trip/StageCard';
 import { ViewContainer } from './common';
@@ -68,12 +69,12 @@ interface TripPropsResults {
 
 export const useTripProps = (): TripPropsResults => {
   const dispatch = useActionsDispatch();
+  const teamId = useTeamId();
   const {
-    params: { teamId, tripId },
+    params: { tripId },
   } = useCurrentStateAndParams();
   useEffect(() => {
-    dispatch(actions.getTeamDetailsAsync({ teamId }));
-    dispatch(actions.getTeamTripAsync({ teamId, tripId }));
+    if (teamId && tripId) dispatch(actions.getTeamTripAsync({ teamId, tripId }));
   }, [dispatch, tripId, teamId]);
   const trip = useMemoizedSelector(selectTeamTrip);
   return {
@@ -83,47 +84,61 @@ export const useTripProps = (): TripPropsResults => {
 
 const Trip: FC = () => {
   const { trip } = useTripProps();
+  if (!trip) return <></>;
+  const {
+    title,
+    startDate,
+    endDate,
+    lowerSpeed,
+    upperSpeed,
+    meetingLocation,
+    meetingTime,
+    imaged,
+    id,
+    teamId,
+    description,
+    stages
+  } = trip;
   return (
-    trip ? (
-      <ViewContainer>
-        <Layout>
-          <LeftCol>
-            <ContentContainer>
-              <Title>
-                {trip.title}
-              </Title>
-              <Date>{`Du ${moment(trip.startDate).format('LL')} au ${moment(trip.endDate).format('LL')}`}</Date>
-              <DetailItem>{`Allure: ${trip.lowerSpeed}/${trip.upperSpeed} km/h`}</DetailItem>
-              <DetailItem>{`Lieu de rendez-vous: ${trip.meetingLocation}`}</DetailItem>
-              <DetailItem>{`Heure de départ: ${trip.meetingTime}`}</DetailItem>
-              {trip.imaged ? (<Image src={`${API_URL}/${trip.teamId}/trips/${trip.id}/image`} alt='team-logo' />) : null}
-              <p>{trip.description}</p>
-            </ContentContainer >
-          </LeftCol>
-          <CenterCol>
-            <ContentCard>
-              <GoButton />
-            </ContentCard>
-            {
-              trip.stages.map((stage) =>
-                <StageCard
-                  key={stage.id}
-                  teamId={trip.teamId}
-                  mapId={stage.map.id}
-                  id={stage.id}
-                  name={stage.name}
-                  date={stage.date}
-                  distance={stage.map.length}
-                  postiveElevation={stage.map.positiveElevation}
-                  negativeElevation={stage.map.negativeElevation}
-                />
-              )}
-          </CenterCol>
-          <RightCol>
-            TODO: Messages
-          </RightCol>
-        </Layout>
-      </ViewContainer>) : null)
+    <ViewContainer>
+      <Layout>
+        <LeftCol>
+          <ContentContainer>
+            <Title>
+              {title}
+            </Title>
+            <Date>{`Du ${toFormatedDate(startDate)} au ${toFormatedDate(endDate)}`}</Date>
+            <DetailItem>{`Allure: ${lowerSpeed}/${upperSpeed} km/h`}</DetailItem>
+            <DetailItem>{`Lieu de rendez-vous: ${meetingLocation}`}</DetailItem>
+            <DetailItem>{`Heure de départ: ${meetingTime}`}</DetailItem>
+            {imaged ? (<Image src={`${API_URL}/${teamId}/trips/${id}/image`} alt='team-logo' />) : null}
+            <p>{description}</p>
+          </ContentContainer >
+        </LeftCol>
+        <CenterCol>
+          <ContentCard>
+            <GoButton />
+          </ContentCard>
+          {
+            stages.map((stage) =>
+              <StageCard
+                key={stage.id}
+                teamId={teamId}
+                mapId={stage.map.id}
+                id={stage.id}
+                name={stage.name}
+                date={stage.date}
+                distance={stage.map.length}
+                postiveElevation={stage.map.positiveElevation}
+                negativeElevation={stage.map.negativeElevation}
+              />
+            )}
+        </CenterCol>
+        <RightCol>
+          TODO: Messages
+        </RightCol>
+      </Layout>
+    </ViewContainer>)
 }
 
 export default memo(Trip);

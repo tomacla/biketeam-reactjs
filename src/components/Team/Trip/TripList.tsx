@@ -1,25 +1,19 @@
 import { FC, memo } from 'react';
-import styled from 'styled-components';
 import { TeamTrip, TeamTripStage } from '../../../redux/interfaces';
 import EventCard from '../../common/EventCard';
-
+import { ListContainer } from '../common';
 
 interface TripListProps {
   trips: TeamTrip[];
 }
-
-const TripListContainer = styled.div`
-  margin: 0 10% 0 10%;
-`
 
 function toBadges(stages: TeamTripStage[]): string[] {
   return stages.map(({ name }) => name).sort()
 }
 
 const TripList: FC<TripListProps> = ({ trips }) => {
-
   return (
-    <TripListContainer>
+    <ListContainer>
       {trips.map((trip) => {
         return (
           <EventCard
@@ -36,7 +30,7 @@ const TripList: FC<TripListProps> = ({ trips }) => {
             id={trip.id}
           />)
       })}
-    </TripListContainer>
+    </ListContainer>
   )
 }
 

@@ -14,3 +14,7 @@ export const SectionTitle = styled.h5`
   line-height: 1.2;
   color: black
 `;
+
+export const ListContainer = styled.div`
+  margin: 0 10% 0 10%;
+`;

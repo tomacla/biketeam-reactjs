@@ -1,4 +1,3 @@
-import 'moment/locale/fr';
 import { FC, memo } from 'react';
 import { Card } from 'react-bootstrap';
 import styled from 'styled-components';
@@ -57,25 +56,23 @@ const GroupCard: FC<GroupCardProps> = (
     <MapCardContainer>
       <Card.Body>
         <Title>{name}</Title>
-        <Card.Text>
-          <MeetingTime>
-            {`Heure de départ : ${meetingTime}`}
-          </MeetingTime>
-          <Infos>
-            {`Allure : ${lowerSpeed}/${upperSpeed} km/h`}
-          </Infos>
-          <Infos>
-            {`Lieu de rendez-vous : ${meetingLocation}`}
-          </Infos>
-          <MapCard
-            mapId={mapId}
-            teamId={teamId}
-            distance={distance}
-            positiveElevation={postiveElevation}
-            negativeElevation={negativeElevation}
-            fileName={`todo-${name}`}
-          />
-        </Card.Text>
+        <MeetingTime>
+          {`Heure de départ : ${meetingTime}`}
+        </MeetingTime>
+        <Infos>
+          {`Allure : ${lowerSpeed}/${upperSpeed} km/h`}
+        </Infos>
+        <Infos>
+          {`Lieu de rendez-vous : ${meetingLocation}`}
+        </Infos>
+        <MapCard
+          mapId={mapId}
+          teamId={teamId}
+          distance={distance}
+          positiveElevation={postiveElevation}
+          negativeElevation={negativeElevation}
+          fileName={`todo-${name}`}
+        />
       </Card.Body>
       <Card.Footer>
         <GoButton />

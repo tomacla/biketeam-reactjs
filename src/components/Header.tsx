@@ -1,11 +1,12 @@
 
 import { LinkProps } from '@uirouter/react/lib/hooks/useSref';
-import React, { FC, memo } from 'react';
+import React, { FC, memo, ReactNode } from 'react';
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import styled from 'styled-components';
 import { NavItem } from '../redux/interfaces';
 
-const Title = styled.h1`
+
+const DefaultTitle = styled.h1`
 &:before{
   content:'bike';
   font-weight: 600;
@@ -20,6 +21,22 @@ margin: 0;
   font-weight: 400;
   color: #6c757d;
 }
+`
+
+const NPTitle = styled(DefaultTitle)`
+&:before{
+  content:'n';
+}
+&:after{
+  content:'peloton';
+}`
+
+const Title = styled.h1`
+  font-weight: 600;
+text-transform: uppercase;
+font-size: 20px;
+font-weight: 500;
+margin: 0;
 `
 
 const NavTitle = styled(Navbar.Brand)`
@@ -46,17 +63,18 @@ const NavButton = styled(Nav.Link)`
 `
 
 interface HeaderProps {
-
   navItems: NavItem[];
   onGoHome: LinkProps;
   onGoFeed: LinkProps;
   onGoRides: LinkProps;
   onGoTrips: LinkProps;
   onGoMaps: LinkProps;
+  onGoMainHome: LinkProps;
   selectedTeamId?: string;
+  title?: string;
 }
 
-function toTitle(item: NavItem): string {
+function toItemTitle(item: NavItem): string {
   return {
     rides: 'Rides',
     trips: 'Trips',
@@ -79,12 +97,24 @@ function toLink(item: NavItem, onGoHome: LinkProps,
   }[item]
 }
 
-const Header: FC<HeaderProps> = ({ onGoHome, selectedTeamId, onGoFeed, onGoMaps, onGoRides, onGoTrips, navItems }) => {
+function toTitle(title?: string): ReactNode {
+  if (!title) {
+    return <DefaultTitle />
+  }
+  if (title === 'N-Peloton') {
+    return <NPTitle />
+  }
+  return <Title >{title}</Title>
+}
+
+const Header: FC<HeaderProps> = (
+  { title, onGoHome, selectedTeamId, onGoFeed, onGoMaps, onGoRides, onGoTrips, onGoMainHome, navItems }
+) => {
   return (
     <Navbar bg="light">
       <Container>
         <NavTitle {...onGoHome}>
-          <Title />
+          {toTitle(title)}
         </NavTitle>
         <Nav className="ms-auto align-items-center">
           {
@@ -92,9 +122,9 @@ const Header: FC<HeaderProps> = ({ onGoHome, selectedTeamId, onGoFeed, onGoMaps,
               <>
                 {navItems.map((navItem) => (
                   <Nav.Link key={navItem} {...toLink(navItem, onGoHome, onGoFeed, onGoRides, onGoTrips, onGoMaps)}>
-                    {toTitle(navItem)}</Nav.Link>
+                    {toItemTitle(navItem)}</Nav.Link>
                 ))}
-                <Link {...onGoHome}><HouseIcon /></Link>
+                <Link {...onGoMainHome}><HouseIcon /></Link>
               </>
             ) : (null)
           }

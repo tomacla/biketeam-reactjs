@@ -1,16 +1,18 @@
-import { configureStore, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { configureStore, createSlice } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import {
-  getCountries,
-  getTeamDetails,
-  getTeamEvents,
-  getTeamMaps,
-  getTeamMembers,
-  getTeamRide,
-  getTeamRides,
-  getTeams,
-  getTeamTrip,
-  getTeamTrips,
+  getCountriesAsync,
+  getTeamDetailsAsync,
+  getTeamEventsAsync,
+  getTeamMapAsync,
+  getTeamMapsAsync,
+  getTeamMembersAsync,
+  getTeamRideAsync,
+  getTeamRidesAsync,
+  getTeamsAsync,
+  getTeamTagsAsync,
+  getTeamTripAsync,
+  getTeamTripsAsync,
 } from './actions';
 import { INITIAL_BIKETEAM_STATE } from './constants';
 import {
@@ -24,6 +26,9 @@ import {
   onGetTeamEventsFullfilled,
   onGetTeamEventsPending,
   onGetTeamEventsRejected,
+  onGetTeamMapFullfilled,
+  onGetTeamMapPending,
+  onGetTeamMapRejected,
   onGetTeamMapsFullfilled,
   onGetTeamMapsPending,
   onGetTeamMapsRejected,
@@ -39,6 +44,9 @@ import {
   onGetTeamsFullfilled,
   onGetTeamsPending,
   onGetTeamsRejected,
+  onGetTeamTagsFullfilled,
+  onGetTeamTagsPending,
+  onGetTeamTagsRejected,
   onGetTeamTripFullfilled,
   onGetTeamTripPending,
   onGetTeamTripRejected,
@@ -48,69 +56,6 @@ import {
 } from './reducers';
 
 const INITIAL_STATE = INITIAL_BIKETEAM_STATE;
-
-const getTeamsAsync = createAsyncThunk(
-  'getTeamsAsync',
-  ({ name, city, country, pageSize }: { name?: string; city?: string; country?: string; pageSize?: string }) =>
-    getTeams(name, city, country, pageSize)
-);
-const getCountriesAsync = createAsyncThunk('getCountries', getCountries);
-const getTeamDetailsAsync = createAsyncThunk('getTeamDetails', ({ teamId }: { teamId: string }) =>
-  getTeamDetails(teamId)
-);
-const getTeamMembersAsync = createAsyncThunk('getTeamMembers', ({ teamId }: { teamId: string }) =>
-  getTeamMembers(teamId)
-);
-const getTeamEventsAsync = createAsyncThunk('getTeamEvents', ({ teamId }: { teamId: string }) => getTeamEvents(teamId));
-const getTeamRidesAsync = createAsyncThunk(
-  'getTeamRides',
-  ({ teamId, from, to }: { teamId: string; from?: Date; to?: Date }) => getTeamRides(teamId, from, to)
-);
-const getTeamTripsAsync = createAsyncThunk(
-  'getTeamTrips',
-  ({ teamId, from, to }: { teamId: string; from?: Date; to?: Date }) => getTeamTrips(teamId, from, to)
-);
-const getTeamRideAsync = createAsyncThunk('getTeamRide', ({ teamId, rideId }: { teamId: string; rideId: string }) =>
-  getTeamRide(teamId, rideId)
-);
-const getTeamTripAsync = createAsyncThunk('getTeamTrip', ({ teamId, tripId }: { teamId: string; tripId: string }) =>
-  getTeamTrip(teamId, tripId)
-);
-const getTeamMapsAsync = createAsyncThunk(
-  'getTeamMaps',
-  ({
-    teamId,
-    lowerDistance,
-    upperDistance,
-    lowerPositiveElevation,
-    upperPositiveElevation,
-    sort,
-    windDirection,
-    type,
-    tags,
-  }: {
-    teamId: string;
-    lowerDistance?: number;
-    upperDistance?: number;
-    lowerPositiveElevation?: number;
-    upperPositiveElevation?: number;
-    sort?: string;
-    windDirection?: string;
-    type?: string;
-    tags?: string[];
-  }) =>
-    getTeamMaps(
-      teamId,
-      lowerDistance,
-      upperDistance,
-      lowerPositiveElevation,
-      upperPositiveElevation,
-      sort,
-      windDirection,
-      type,
-      tags
-    )
-);
 
 const actionsSlice = createSlice({
   name: 'actions',
@@ -149,7 +94,13 @@ const actionsSlice = createSlice({
       .addCase(getTeamTripAsync.rejected, onGetTeamTripRejected)
       .addCase(getTeamMapsAsync.fulfilled, onGetTeamMapsFullfilled)
       .addCase(getTeamMapsAsync.pending, onGetTeamMapsPending)
-      .addCase(getTeamMapsAsync.rejected, onGetTeamMapsRejected),
+      .addCase(getTeamMapsAsync.rejected, onGetTeamMapsRejected)
+      .addCase(getTeamMapAsync.fulfilled, onGetTeamMapFullfilled)
+      .addCase(getTeamMapAsync.pending, onGetTeamMapPending)
+      .addCase(getTeamMapAsync.rejected, onGetTeamMapRejected)
+      .addCase(getTeamTagsAsync.fulfilled, onGetTeamTagsFullfilled)
+      .addCase(getTeamTagsAsync.pending, onGetTeamTagsPending)
+      .addCase(getTeamTagsAsync.rejected, onGetTeamTagsRejected),
 });
 
 export const actions = {
@@ -163,7 +114,9 @@ export const actions = {
   getTeamTripsAsync,
   getTeamTripAsync,
   getTeamRideAsync,
-  getTeamMapsAsync
+  getTeamMapsAsync,
+  getTeamMapAsync,
+  getTeamTagsAsync
 };
 
 const { reducer } = actionsSlice;

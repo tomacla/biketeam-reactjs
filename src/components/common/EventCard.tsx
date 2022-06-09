@@ -1,14 +1,13 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-
 import { useSref } from '@uirouter/react';
 import { LinkProps } from '@uirouter/react/lib/hooks/useSref';
 import moment from 'moment';
-import 'moment/locale/fr';
 import { FC, memo, ReactNode } from 'react';
-import { Badge, Button, Card, Col, Row } from 'react-bootstrap';
+import { Button, Card, Col, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { EventType } from '../../redux/interfaces';
 import { API_URL } from '../common/constants';
+import BadgeList from './BadgeList';
+import { toFormatedDate } from './Date';
 
 const EventCardContainer = styled(Card)`
   margin: 8px 0 8px 0;
@@ -39,15 +38,6 @@ margin: 0 4px 0 4px;
 const CardHeader = styled(Card.Header)`
 font-size: .875em;
 color: #6c757d!important;
-`;
-
-interface GroupBadgeProps {
-  color?: string;
-}
-
-const GroupBadge = styled(Badge) <GroupBadgeProps>`
-  margin-right: 4px;
-  background-color: ${({ color }) => (color)} !important;
 `;
 
 const EventImage = styled.img.attrs({
@@ -87,16 +77,6 @@ function toEventImage(type: EventType, teamId: string, id: string, link?: LinkPr
   }[type]
 }
 
-function toBadgeColor(badge: string): string | undefined {
-  return {
-    'G1': 'red',
-    'G2': '#ff5324',
-    'G3': '#eeb31e',
-    'GRAVEL': 'chocolate',
-    'CHILL': 'green',
-  }[badge.toUpperCase()]
-}
-
 function useEventLink(type: EventType, eventId: string, teamId: string): LinkProps | undefined {
   return {
     TRIP: useSref('trip', { tripId: eventId, teamId }),
@@ -107,8 +87,8 @@ function useEventLink(type: EventType, eventId: string, teamId: string): LinkPro
 
 function toEventDate(type: EventType, date?: Date, endDate?: Date): string {
   return {
-    TRIP: 'Du ' + moment(date).format('LL') + ' au ' + moment(endDate).format('LL'),
-    RIDE: moment(date).format('LL'),
+    TRIP: 'Du ' + toFormatedDate(date) + ' au ' + toFormatedDate(endDate),
+    RIDE: toFormatedDate(date),
     PUBLICATION: ''
   }[type]
 }
@@ -145,24 +125,20 @@ const EventCard: FC<EventProps> = (
       <CardHeader className='text-end'>{toTypeTitle(type)}publié {moment(publishedAt).locale('fr').fromNow()}</CardHeader>
       <Card.Body>
         <Title>{title}</Title>
-        <Card.Text>
-          <EventDate>
-            {toEventDate(type, date, endDate)}
-          </EventDate>
-          <p>
-            {badges.map((badge) => <GroupBadge color={toBadgeColor(badge)} key={badge} bg="secondary">{badge}</GroupBadge>)}
-          </p>
-          <EventContent>
-            {content}
-          </EventContent>
-          {imaged ? (
-            <ImageContainer>
-              <Col xs={12} md={6} >
-                {toEventImage(type, teamId, id, goToEvent)}
-              </Col>
-            </ImageContainer>
-          ) : (null)}
-        </Card.Text>
+        <EventDate>
+          {toEventDate(type, date, endDate)}
+        </EventDate>
+        <BadgeList badges={badges} />
+        <EventContent>
+          {content}
+        </EventContent>
+        {imaged ? (
+          <ImageContainer>
+            <Col xs={12} md={6} >
+              {toEventImage(type, teamId, id, goToEvent)}
+            </Col>
+          </ImageContainer>
+        ) : (null)}
       </Card.Body>
       {
         type !== 'PUBLICATION' ? (<Card.Footer className='text-center'>

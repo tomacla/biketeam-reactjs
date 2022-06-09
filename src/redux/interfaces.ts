@@ -6,9 +6,9 @@ export interface BikeTeamState {
 
 export interface BikeTeamStateEntitiesData {
   countries: Country[];
-  windDirection: string[];
-  mapType: string[];
-  mapSort: string[]
+  windDirections: string[];
+  mapTypes: string[];
+  mapSorts: string[]
 }
 
 export interface BikeTeamStateEntitiesTeam {
@@ -17,10 +17,14 @@ export interface BikeTeamStateEntitiesTeam {
   rides: TeamRide[];
   trips: TeamTrip[];
   maps: Map[];
+  tags: string[];
+  nbPages: number;
   details?: Team;
   ride?: TeamRide;
   trip?: TeamTrip;
+  map?: Map;
 }
+
 export interface BikeTeamStateEntities {
   teams: Team[];
   data: BikeTeamStateEntitiesData;
