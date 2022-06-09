@@ -1,14 +1,6 @@
 import { FC, memo } from 'react';
 import { Button } from 'react-bootstrap';
-import styled from 'styled-components';
-
-
-const BikeIcon = styled.i.attrs({
-  className: 'bi bi-bicycle'
-})`
-margin-right: 4px;
-`;
-
+import { BikeIcon } from './Icons';
 
 const GoButton: FC = () => {
   return (

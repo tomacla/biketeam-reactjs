@@ -64,12 +64,16 @@ export function selectTeamMap(state: BikeTeamState): Map | undefined{
   return state.entities.team.map;
 }
 
-export function selectNbPages(state: BikeTeamState): number{
-  return state.entities.team.nbPages;
+export function selectNbMapPages(state: BikeTeamState): number{
+  return state.entities.team.nbMapPages;
 }
 
 export function selectTeamTags(state: BikeTeamState): string[]{
   return state.entities.team.tags;
+}
+
+export function selectNbTeamPages(state: BikeTeamState): number{
+  return state.entities.nbTeamPages;
 }
 
 

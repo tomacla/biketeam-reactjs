@@ -43,11 +43,11 @@ interface HomePropsResult {
   goToTeams: LinkProps
 }
 
-function useHomeProps() : HomePropsResult {
+function useHomeProps(): HomePropsResult {
   const dispatch = useActionsDispatch()
   const teams = useSelector(selectTeams);
   const goToTeams = useSref('teams');
-  const PAGE_SIZE = '4';
+  const PAGE_SIZE = '3';
   useLoadTeams(PAGE_SIZE);
   useEffect(() => {
     dispatch(actions.clearTeamDetails())
@@ -60,7 +60,7 @@ function useHomeProps() : HomePropsResult {
 }
 
 const Home: FC = () => {
-  const {teams, goToTeams} = useHomeProps();
+  const { teams, goToTeams } = useHomeProps();
   return (
     <ViewContainer>
       <Title>Un site unique pour les groupes de vélo</Title>
@@ -79,7 +79,12 @@ const Home: FC = () => {
           Explorer les groupes
         </a>
       </ExploreLink>
-      <TeamList teams={teams} />
+      <TeamList
+        teams={teams}
+        withPagination={false}
+        nbPages={0}
+        page={0}
+        setPage={()=>{}} />
     </ViewContainer>)
 }
 

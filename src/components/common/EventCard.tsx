@@ -1,13 +1,13 @@
 import { useSref } from '@uirouter/react';
 import { LinkProps } from '@uirouter/react/lib/hooks/useSref';
-import moment from 'moment';
 import { FC, memo, ReactNode } from 'react';
 import { Button, Card, Col, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { EventType } from '../../redux/interfaces';
 import { API_URL } from '../common/constants';
 import BadgeList from './BadgeList';
-import { toFormatedDate } from './Date';
+import { toFormatedDate, toFormatedDateFromNow } from './Date';
+import { EventIcon, SeeIcon } from './Icons';
 
 const EventCardContainer = styled(Card)`
   margin: 8px 0 8px 0;
@@ -18,22 +18,6 @@ const Title = styled(Card.Title)`
   font-weight: 500;
   line-height: 1.2;
 `
-
-const SeeIcon = styled.i.attrs({
-  className: 'bi bi-eye-fill'
-})`
-margin-right: 4px;
-`;
-
-interface BikeIconProps {
-  className: string;
-}
-
-const BikeIcon = styled.i.attrs<BikeIconProps>((({ className }) => ({
-  className: `bi bi-${className}`
-})))`
-margin: 0 4px 0 4px;
-`;
 
 const CardHeader = styled(Card.Header)`
 font-size: .875em;
@@ -63,9 +47,9 @@ const EventDate = styled.h5`
 
 function toTypeTitle(type: EventType): ReactNode {
   return {
-    TRIP: <>Trip<BikeIcon className='signpost-2' /></>,
-    RIDE: <>Ride<BikeIcon className='bicycle' /></>,
-    PUBLICATION: <>Publication<BikeIcon className='newspaper' /></>
+    TRIP: <>Trip<EventIcon className='signpost-2' /></>,
+    RIDE: <>Ride<EventIcon className='bicycle' /></>,
+    PUBLICATION: <>Publication<EventIcon className='newspaper' /></>
   }[type]
 }
 
@@ -122,7 +106,7 @@ const EventCard: FC<EventProps> = (
   const goToEvent = useEventLink(type, id, teamId)
   return (
     <EventCardContainer>
-      <CardHeader className='text-end'>{toTypeTitle(type)}publié {moment(publishedAt).locale('fr').fromNow()}</CardHeader>
+      <CardHeader className='text-end'>{toTypeTitle(type)}publié {toFormatedDateFromNow(publishedAt)}</CardHeader>
       <Card.Body>
         <Title>{title}</Title>
         <EventDate>
@@ -142,7 +126,9 @@ const EventCard: FC<EventProps> = (
       </Card.Body>
       {
         type !== 'PUBLICATION' ? (<Card.Footer className='text-center'>
-          <Button {...goToEvent} size="sm" variant="secondary"><SeeIcon />Voir</Button>
+          <Button {...goToEvent} size="sm" variant="secondary">
+            <SeeIcon />Voir
+          </Button>
         </Card.Footer>) : null
       }
     </EventCardContainer>

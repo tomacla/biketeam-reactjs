@@ -1,26 +1,18 @@
 import React, { FC, memo } from 'react';
-import { Col, Pagination, Row } from 'react-bootstrap';
-import styled from 'styled-components';
+import { Col, Row } from 'react-bootstrap';
 import { Map } from '../../../redux/interfaces';
+import PageButtons from '../../common/PageButtons';
 import MapListItem from './MapListItem';
-
-const CenteredCol = styled(Col)`
-display:flex ;
-justify-content: center;
-`
 
 interface MapListProps {
   nbPages: number;
   page: number;
   maps: Map[];
-  onFirstPageClick: () => void;
-  onLastPageClick: () => void;
-  onPrevPageClick: () => void;
-  onNextPageClick: () => void;
+  setPage: (page: number) => void;
 }
 
 const MapList: FC<MapListProps> = (
-  { nbPages, page, maps, onFirstPageClick, onLastPageClick, onPrevPageClick, onNextPageClick }
+  { nbPages, page, maps, setPage }
 ) => {
   return (
     <>
@@ -30,17 +22,10 @@ const MapList: FC<MapListProps> = (
             <MapListItem map={map} />
           </Col>))}
       </Row>
-      <Row>
-        <CenteredCol>
-          <Pagination>
-            <Pagination.First onClick={onFirstPageClick} />
-            <Pagination.Prev disabled={page === 0} onClick={onPrevPageClick} />
-            <Pagination.Item disabled >{page}</Pagination.Item>
-            <Pagination.Next disabled={page === nbPages - 1} onClick={onNextPageClick} />
-            <Pagination.Last onClick={onLastPageClick} />
-          </Pagination>
-        </CenteredCol>
-      </Row>
+      <PageButtons
+        nbPages={nbPages}
+        page={page}
+        setPage={setPage} />
     </>
   )
 }

@@ -1,6 +1,6 @@
 import React, { FC, memo, useCallback, useEffect, useState } from 'react';
 import { Map } from '../../redux/interfaces';
-import { selectDataMapSorts, selectDataMapTypes, selectDataWindDirections, selectNbPages, selectTeamMaps, selectTeamTags } from '../../redux/selectors';
+import { selectDataMapSorts, selectDataMapTypes, selectDataWindDirections, selectNbMapPages, selectTeamMaps, selectTeamTags } from '../../redux/selectors';
 import { actions, useActionsDispatch } from '../../redux/store';
 import { useMemoizedSelector } from '../../redux/useMemoizedSelector';
 import { MapFilterFormOptions, SelectOption } from '../Team/Map/interfaces';
@@ -18,10 +18,7 @@ interface MapsPropsResults {
   options: MapFilterFormOptions;
   localTags: Tag[];
   handleSubmitForm: SubmitFormHandler;
-  handleFirstPageClick: () => void;
-  handleLastPageClick: () => void;
-  handlePrevPageClick: () => void;
-  handleNextPageClick: () => void;
+  setPage: (page: number) => void;
   handleAddLocalTag: (tag: Tag) => void;
   handleDeleteLocalTag: (index: number) => void;
 }
@@ -44,7 +41,7 @@ export const useMapsProps = (): MapsPropsResults => {
   const winds = useMemoizedSelector(selectDataWindDirections);
   const types = useMemoizedSelector(selectDataMapTypes);
   const sorts = useMemoizedSelector(selectDataMapSorts);
-  const nbPages = useMemoizedSelector(selectNbPages);
+  const nbPages = useMemoizedSelector(selectNbMapPages);
   const tags = useMemoizedSelector(selectTeamTags);
   const tagOptions = tags.map((tag) => ({ id: tag, name: tag }))
   const [localTags, setLocalTags] = useState<Tag[]>([]);
@@ -64,27 +61,10 @@ export const useMapsProps = (): MapsPropsResults => {
           sort: form.elements['sort'].value,
           windDirection: form.elements['windDirection'].value,
           type: form.elements['type'].value,
-          tags: localTags.map(({name}) => (name)),
+          tags: localTags.map(({ name }) => (name)),
         }))
     }
   }, [dispatch, localTags, page, teamId]);
-  const handleFirstPageClick = useCallback(() => {
-    setPage(0);
-  }, [])
-  const handleLastPageClick = useCallback(() => {
-    setPage(1);
-  }, [])
-  const handlePrevPageClick = useCallback(() => {
-    if (page !== 0) {
-      setPage(page - 1);
-    }
-  }, [page])
-  const handleNextPageClick = useCallback(() => {
-    if (page !== nbPages - 1) {
-      setPage(page + 1)
-    }
-  }, [nbPages, page])
-
   const handleAddLocalTag = useCallback((tag: Tag) => {
     setLocalTags([...localTags, tag])
   }, [localTags])
@@ -104,20 +84,16 @@ export const useMapsProps = (): MapsPropsResults => {
     },
     localTags,
     handleSubmitForm,
-    handleFirstPageClick,
-    handleLastPageClick,
-    handlePrevPageClick,
-    handleNextPageClick,
+    setPage,
     handleAddLocalTag,
-    handleDeleteLocalTag
+    handleDeleteLocalTag,
   }
 }
 
 const Maps: FC = () => {
-  const { maps, handleSubmitForm, options, handleFirstPageClick,
-    handleLastPageClick,
-    handlePrevPageClick,
-    handleNextPageClick, page, localTags, handleAddLocalTag, handleDeleteLocalTag, nbPages } = useMapsProps();
+  const {
+    maps, handleSubmitForm, options, setPage, page, localTags, handleAddLocalTag, handleDeleteLocalTag, nbPages
+  } = useMapsProps();
   return (
     <ViewContainer>
       <FormContainer>
@@ -132,10 +108,7 @@ const Maps: FC = () => {
         nbPages={nbPages}
         page={page}
         maps={maps}
-        onFirstPageClick={handleFirstPageClick}
-        onLastPageClick={handleLastPageClick}
-        onNextPageClick={handleNextPageClick}
-        onPrevPageClick={handlePrevPageClick} />
+        setPage={setPage} />
     </ViewContainer>)
 }
 

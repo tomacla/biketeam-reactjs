@@ -3,6 +3,7 @@ import { FC, memo } from 'react';
 import { ButtonGroup } from 'react-bootstrap';
 import styled from 'styled-components';
 import { API_URL } from './constants';
+import { DownloadIcon, MapIcon } from './Icons';
 
 interface MapButtonGroupProps {
   teamId: string,
@@ -14,19 +15,6 @@ interface MapButtonGroupProps {
 const Container = styled(ButtonGroup)`
   display: flex;
 `
-
-const DownloadIcon = styled.i.attrs({
-  className: 'bi bi-download'
-})`
-margin-right: 4px;
-`;
-
-const MapIcon = styled.i.attrs({
-  className: 'bi bi-map'
-})`
-margin-right: 4px;
-`;
-
 interface ButtonProps {
   type: string;
 }

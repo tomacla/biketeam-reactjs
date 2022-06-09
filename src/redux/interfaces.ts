@@ -18,7 +18,7 @@ export interface BikeTeamStateEntitiesTeam {
   trips: TeamTrip[];
   maps: Map[];
   tags: string[];
-  nbPages: number;
+  nbMapPages: number;
   details?: Team;
   ride?: TeamRide;
   trip?: TeamTrip;
@@ -27,6 +27,7 @@ export interface BikeTeamStateEntitiesTeam {
 
 export interface BikeTeamStateEntities {
   teams: Team[];
+  nbTeamPages: number;
   data: BikeTeamStateEntitiesData;
   team: BikeTeamStateEntitiesTeam;
 }

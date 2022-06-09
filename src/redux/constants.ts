@@ -16,9 +16,10 @@ export const INITIAL_BIKETEAM_STATE: BikeTeamState = {
       rides: [],
       trips: [],
       maps: [],
-      nbPages: 0,
+      nbMapPages: 0,
       tags:[]
     },
+    nbTeamPages: 0
   },
   ui: {
     navitems: []

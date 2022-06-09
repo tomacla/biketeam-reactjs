@@ -1,8 +1,8 @@
-import React, { FC, memo, useCallback } from 'react';
+import React, { FC, memo, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import TeamList from '../Teams/TeamList';
 import { Country, Team } from '../../redux/interfaces';
-import { selectCountries, selectTeams } from '../../redux/selectors';
+import { selectCountries, selectNbTeamPages, selectTeams } from '../../redux/selectors';
 import { actions, useActionsDispatch } from '../../redux/store';
 import { useMemoizedSelector } from '../../redux/useMemoizedSelector';
 import { SubmitFormHandler } from '../Teams/interfaces';
@@ -20,7 +20,10 @@ const TeamFormContainer = styled.div`
 interface TeamsPropsResults {
   countries: Country[];
   teams: Team[];
-  handleSubmitForm: SubmitFormHandler
+  nbPages: number;
+  page: number;
+  handleSubmitForm: SubmitFormHandler;
+  setPage: (page: number) => void;
 }
 
 function useTeamsProps(): TeamsPropsResults {
@@ -28,6 +31,11 @@ function useTeamsProps(): TeamsPropsResults {
   const dispatch = useActionsDispatch();
   const countries = useMemoizedSelector(selectCountries);
   const teams = useMemoizedSelector(selectTeams);
+  const [page, setPage] = useState(0);
+  const nbPages = useMemoizedSelector(selectNbTeamPages);
+  useEffect(() => {
+    dispatch(actions.getTeamsAsync({ page: page }))
+  }, [dispatch, page]);
   return {
     teams,
     countries,
@@ -39,21 +47,31 @@ function useTeamsProps(): TeamsPropsResults {
         {
           name: form.elements['name'].value,
           city: form.elements['city'].value,
-          country: form.elements['country'].value
+          country: form.elements['country'].value,
+          page
         }))
-    }, [dispatch])
+    }, [dispatch, page]),
+    page,
+    nbPages,
+    setPage
   };
 }
 
 
 const Teams: FC = () => {
-  const { teams, countries, handleSubmitForm } = useTeamsProps();
+  const {
+    teams,
+    countries,
+    handleSubmitForm,
+    nbPages,
+    page,
+    setPage } = useTeamsProps();
   return (
     <ViewContainer>
       <TeamFormContainer>
         <TeamFilterForm onSubmit={handleSubmitForm} countries={countries} />
       </TeamFormContainer>
-      <TeamList teams={teams} />
+      <TeamList teams={teams} withPagination={true} nbPages={nbPages} page={page} setPage={setPage} />
     </ViewContainer>
   )
 }

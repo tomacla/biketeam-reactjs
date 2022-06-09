@@ -1,5 +1,6 @@
 import { FC, memo } from 'react';
 import styled from 'styled-components';
+import { DistanceIcon, PositiveElevationIcon, NagativeElevationIcon } from './Icons';
 
 
 interface MapDataItemProps {
@@ -15,43 +16,23 @@ const Container = styled.div`
   padding: 2px 0 2px 0;
 `;
 
-const Item = styled.div``;
-
-const DistanceIcon = styled.i.attrs({
-  className: 'bi bi-arrow-left-right'
-})`
-margin-right: 4px;
-`;
-
-const PositiveElevationIcon = styled.i.attrs({
-  className: 'bi bi-arrow-up'
-})`
-margin-right: 4px;
-`;
-
-const NagativeElevationIcon = styled.i.attrs({
-  className: 'bi bi-arrow-down'
-})`
-margin-right: 4px;
-`;
-
 const MapDataItem: FC<MapDataItemProps> = ({ length,
   positiveElevation,
   negativeElevation }) => {
   return (
     <Container>
-      <Item>
+      <div>
         <DistanceIcon />
         {`${length}km`}
-      </Item>
-      <Item>
+      </div>
+      <div>
         <PositiveElevationIcon />
         {`${positiveElevation}m`}
-      </Item>
-      <Item>
+      </div>
+      <div>
         <NagativeElevationIcon />
         {`${negativeElevation}m`}
-      </Item>
+      </div>
     </Container>
   )
 }

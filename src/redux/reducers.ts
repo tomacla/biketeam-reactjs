@@ -14,8 +14,12 @@ import {
 
 export function onGetTeamsPending(): void {}
 export function onGetTeamsRejected(): void {}
-export function onGetTeamsFullfilled(state: BikeTeamState, { payload: teams }: PayloadAction<Team[]>): void {
-  state.entities.teams = teams;
+export function onGetTeamsFullfilled(
+  state: BikeTeamState,
+  { payload }: PayloadAction<{ teams: Team[]; nbPages: string }>
+): void {
+  state.entities.teams = payload.teams;
+  state.entities.nbTeamPages = parseInt(payload.nbPages);
 }
 
 export function onGetCountriesPending(): void {}
@@ -95,7 +99,7 @@ export function onGetTeamMapsFullfilled(
   { payload }: PayloadAction<{ maps: Map[]; nbPages: string }>
 ): void {
   state.entities.team.maps = payload.maps;
-  state.entities.team.nbPages = parseInt(payload.nbPages);
+  state.entities.team.nbMapPages = parseInt(payload.nbPages);
 }
 
 export function onGetTeamMapPending(): void {}

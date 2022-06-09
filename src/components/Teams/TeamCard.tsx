@@ -13,7 +13,7 @@ const TeamLogo = styled(Card.Img)`
 padding: 8px;
 width: 100%;
 height: 180px;
-object-fit: fill;
+object-fit: contain;
 `
 
 const TeamBody = styled(Card.Body)`

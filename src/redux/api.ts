@@ -5,7 +5,13 @@ const API_URL = 'https://staging.biketeam.info/api';
 const DEFAULT_PAGE_SIZE = '9';
 const DEFAULT_PAGE = '0';
 
-export async function getTeams(name?: string, city?: string, country?: string, pageSize?: string): Promise<Team[]> {
+export async function getTeams(
+  name?: string,
+  city?: string,
+  country?: string,
+  pageSize?: string,
+  page?: number
+): Promise<{teams:Team[], nbPages: string}> {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     params: {
@@ -13,11 +19,11 @@ export async function getTeams(name?: string, city?: string, country?: string, p
       city: city,
       country: country,
       pageSize: pageSize || DEFAULT_PAGE_SIZE,
-      page: DEFAULT_PAGE,
+      page: page || DEFAULT_PAGE,
     },
   };
-  const { data: result } = await axios.get(`${API_URL}/teams`, config);
-  return result;
+  const { data: teams, headers } = await axios.get(`${API_URL}/teams`, config);
+  return {teams, nbPages: headers['x-pages']};
 }
 
 export async function getCountries(): Promise<Country[]> {

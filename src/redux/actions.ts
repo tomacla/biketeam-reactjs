@@ -16,8 +16,19 @@ import {
 
 export const getTeamsAsync = createAsyncThunk(
   'getTeamsAsync',
-  ({ name, city, country, pageSize }: { name?: string; city?: string; country?: string; pageSize?: string }) =>
-    getTeams(name, city, country, pageSize)
+  ({
+    name,
+    city,
+    country,
+    pageSize,
+    page,
+  }: {
+    name?: string;
+    city?: string;
+    country?: string;
+    pageSize?: string;
+    page?: number;
+  }) => getTeams(name, city, country, pageSize, page)
 );
 
 export const getCountriesAsync = createAsyncThunk('getCountries', getCountries);
@@ -64,7 +75,7 @@ export const getTeamMapsAsync = createAsyncThunk(
     windDirection,
     type,
     tags,
-    page
+    page,
   }: {
     teamId: string;
     page: number;
@@ -91,12 +102,10 @@ export const getTeamMapsAsync = createAsyncThunk(
     )
 );
 
-export const getTeamMapAsync = createAsyncThunk(
-  'getTeamMap',
-  ({ teamId, mapId }: { teamId: string; mapId: string }) => getTeamMap(teamId, mapId)
+export const getTeamMapAsync = createAsyncThunk('getTeamMap', ({ teamId, mapId }: { teamId: string; mapId: string }) =>
+  getTeamMap(teamId, mapId)
 );
 
-export const getTeamTagsAsync = createAsyncThunk(
-  'getTeamTags',
-  ({ teamId }: { teamId: string }) => getTeamTags(teamId)
+export const getTeamTagsAsync = createAsyncThunk('getTeamTags', ({ teamId }: { teamId: string }) =>
+  getTeamTags(teamId)
 );
