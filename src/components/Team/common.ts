@@ -12,7 +12,6 @@ export const SectionTitle = styled.h5`
   font-weight: 500;
   font-size: 1.25rem;
   line-height: 1.2;
-  color: black
 `;
 
 export const ListContainer = styled.div`

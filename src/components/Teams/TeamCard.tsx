@@ -26,7 +26,6 @@ const TeamTitle = styled(Card.Title)`
 font-weight: bold;
 padding: 16px 16px 0px 16px;
 a{
-  color: black;
   text-decoration: none;
   &:hover {
     text-decoration: underline;

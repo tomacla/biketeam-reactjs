@@ -17,6 +17,7 @@ import Rides from './components/Views/Rides';
 import Trips from './components/Views/Trips';
 import Maps from './components/Views/Maps';
 import Map from './components/Views/Map';
+import { ThemeContextProvider } from './contexts/themeContext';
 
 const homeState = { name: 'home', url: '/', component: Home };
 const teamsState = { name: 'teams', url: '/teams', component: Teams };
@@ -29,15 +30,17 @@ const tripState = { name: 'trip', url: '/{teamId:[^/]*}/trips/{tripId:[^/]*}', c
 const mapState = { name: 'map', url: '/{teamId:[^/]*}/maps/{mapId:[^/]*}', component: Map };
 
 ReactDOM.render(
-  <React.StrictMode>
-    <StoreProvider>
-      <UIRouter plugins={[pushStateLocationPlugin]}
-        states={
-          [homeState, teamsState, homeTeamState, rideState, tripState, tripsState, ridesState, mapsState, mapState]
-        } >
-        <App />
-      </UIRouter>
-    </StoreProvider >
-  </React.StrictMode >
+  <ThemeContextProvider>
+    <React.StrictMode>
+      <StoreProvider>
+        <UIRouter plugins={[pushStateLocationPlugin]}
+          states={
+            [homeState, teamsState, homeTeamState, rideState, tripState, tripsState, ridesState, mapsState, mapState]
+          } >
+          <App />
+        </UIRouter>
+      </StoreProvider >
+    </React.StrictMode >
+  </ThemeContextProvider>
   , document.getElementById('root')
 );

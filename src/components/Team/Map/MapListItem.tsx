@@ -30,7 +30,6 @@ const PostedAt = styled.div`
 `;
 
 const Title = styled.a`
- color: black;
  font-size: 1.25rem;
  font-weight: 500;
  line-height: 1.2;

@@ -1,8 +1,9 @@
 
 import { LinkProps } from '@uirouter/react/lib/hooks/useSref';
-import React, { FC, memo, ReactNode } from 'react';
-import { Button, Container, Nav, Navbar } from 'react-bootstrap';
+import React, { FC, memo, ReactNode, useCallback, useMemo } from 'react';
+import { Button, Container, Form, Nav, Navbar } from 'react-bootstrap';
 import styled from 'styled-components';
+import { ColorTheme, COLOR_THEME_DARK, COLOR_THEME_LIGHT, useThemeContext } from '../contexts/themeContext';
 import { NavItem } from '../redux/interfaces';
 
 
@@ -107,9 +108,28 @@ function toTitle(title?: string): ReactNode {
   return <Title >{title}</Title>
 }
 
+interface HeaderPropResults {
+  darkMode: ColorTheme;
+  handleSetTheme: () => void
+}
+
+function useHeaderProps(): HeaderPropResults {
+  const [darkMode, setDarkMode] = React.useState(false);
+  const themeContext = useThemeContext();
+  const handleSetTheme = useCallback(() => {
+    setDarkMode(!darkMode);
+    themeContext?.changeTheme((darkMode ? COLOR_THEME_LIGHT : COLOR_THEME_DARK) as ColorTheme);
+  }, [darkMode, themeContext])
+  return {
+    darkMode: useMemo(() => (darkMode ? COLOR_THEME_LIGHT : COLOR_THEME_DARK), [darkMode]),
+    handleSetTheme
+  }
+}
+
 const Header: FC<HeaderProps> = (
   { title, onGoHome, selectedTeamId, onGoFeed, onGoMaps, onGoRides, onGoTrips, onGoMainHome, navItems }
 ) => {
+  const { darkMode, handleSetTheme } = useHeaderProps()
   return (
     <Navbar bg="light">
       <Container>
@@ -125,9 +145,15 @@ const Header: FC<HeaderProps> = (
                     {toItemTitle(navItem)}</Nav.Link>
                 ))}
                 <Link {...onGoMainHome}><HouseIcon /></Link>
+
               </>
             ) : (null)
           }
+          <Form.Check
+            type="switch"
+            value={darkMode}
+            onChange={handleSetTheme}
+          />
           <NavButton >
             <Button variant="outline-secondary" size="sm">Connexion</Button>
           </NavButton>
