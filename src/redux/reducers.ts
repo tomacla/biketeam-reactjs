@@ -1,4 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
+import GpxParser from 'gpxparser';
 import {
   BikeTeamState,
   Country,
@@ -112,4 +113,12 @@ export function onGetTeamTagsPending(): void {}
 export function onGetTeamTagsRejected(): void {}
 export function onGetTeamTagsFullfilled(state: BikeTeamState, { payload: tags }: PayloadAction<string[]>): void {
   state.entities.team.tags = tags;
+}
+
+export function onPPending(): void {}
+export function onPRejected(): void {}
+export function onPFullfilled(state: BikeTeamState, { payload }: PayloadAction<string>): void {
+  const parsedGpx = new GpxParser();
+  parsedGpx.parse(payload);
+  state.entities.team.course = parsedGpx.tracks[0]
 }

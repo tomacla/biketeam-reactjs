@@ -13,6 +13,7 @@ import {
   getTeamTagsAsync,
   getTeamTripAsync,
   getTeamTripsAsync,
+  parseGpxFileAsync,
 } from './actions';
 import { INITIAL_BIKETEAM_STATE } from './constants';
 import {
@@ -53,6 +54,9 @@ import {
   onGetTeamTripsFullfilled,
   onGetTeamTripsPending,
   onGetTeamTripsRejected,
+  onPFullfilled,
+  onPPending,
+  onPRejected,
 } from './reducers';
 
 const INITIAL_STATE = INITIAL_BIKETEAM_STATE;
@@ -100,7 +104,10 @@ const actionsSlice = createSlice({
       .addCase(getTeamMapAsync.rejected, onGetTeamMapRejected)
       .addCase(getTeamTagsAsync.fulfilled, onGetTeamTagsFullfilled)
       .addCase(getTeamTagsAsync.pending, onGetTeamTagsPending)
-      .addCase(getTeamTagsAsync.rejected, onGetTeamTagsRejected),
+      .addCase(getTeamTagsAsync.rejected, onGetTeamTagsRejected)
+      .addCase(parseGpxFileAsync.fulfilled, onPFullfilled)
+      .addCase(parseGpxFileAsync.pending, onPPending)
+      .addCase(parseGpxFileAsync.rejected, onPRejected),
 });
 
 export const actions = {
@@ -116,7 +123,8 @@ export const actions = {
   getTeamRideAsync,
   getTeamMapsAsync,
   getTeamMapAsync,
-  getTeamTagsAsync
+  getTeamTagsAsync,
+  parseGpxFileAsync
 };
 
 const { reducer } = actionsSlice;

@@ -12,6 +12,7 @@ import {
   getTeamTags,
   getTeamTrip,
   getTeamTrips,
+  getXmlFile,
 } from './api';
 
 export const getTeamsAsync = createAsyncThunk(
@@ -108,4 +109,21 @@ export const getTeamMapAsync = createAsyncThunk('getTeamMap', ({ teamId, mapId }
 
 export const getTeamTagsAsync = createAsyncThunk('getTeamTags', ({ teamId }: { teamId: string }) =>
   getTeamTags(teamId)
+);
+
+// async function getMap(url: string): Promise<any> {
+//   const parsedGpx = new GpxParser();
+//   const data = await fetch(url).then( res => {
+
+//     return res.text();
+//   }).catch(err => {
+//     // eslint-disable-next-line no-console
+//     console.error(err)
+//     return;
+//   })
+//   parsedGpx.parse(data as string);
+// }
+
+export const parseGpxFileAsync = createAsyncThunk('parseGpxFile', ({ teamId, mapId }: { teamId: string; mapId: string }) =>
+  getXmlFile(teamId, mapId)
 );

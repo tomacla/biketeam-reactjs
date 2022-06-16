@@ -1,18 +1,22 @@
 import { useCurrentStateAndParams } from '@uirouter/react';
+import { Track } from 'gpxparser';
 import { LatLngExpression } from 'leaflet';
 import React, { FC, memo, useEffect } from 'react';
-import { MapContainer, Marker, TileLayer } from 'react-leaflet';
+import { MapContainer, TileLayer } from 'react-leaflet';
 import { Map } from '../../redux/interfaces';
-import { selectTeamMap } from '../../redux/selectors';
+import { selectTeamCurrentCourse, selectTeamMap } from '../../redux/selectors';
 import { actions, useActionsDispatch } from '../../redux/store';
 import { useMemoizedSelector } from '../../redux/useMemoizedSelector';
 import { useTeamId } from '../common/hooks';
 import { ContentContainer } from '../Team/common';
 import MapDetails from '../Team/Map/MapDetails';
 import { ViewContainer } from './common';
+import 'leaflet.elevation/dist/Leaflet.Elevation-0.0.2.min.js'
+import { MyMap } from './MapViewer';
 
 interface MapPropsResults {
   map?: Map;
+  course?: Track;
 }
 
 export const useMapProps = (): MapPropsResults => {
@@ -22,51 +26,38 @@ export const useMapProps = (): MapPropsResults => {
     params: { mapId },
   } = useCurrentStateAndParams();
   useEffect(() => {
-    if (teamId && mapId) dispatch(actions.getTeamMapAsync({ teamId, mapId }));
+    if (teamId && mapId) {
+      dispatch(actions.getTeamMapAsync({ teamId, mapId }));
+      dispatch(actions.parseGpxFileAsync({ teamId, mapId }));
+    }
   }, [dispatch, mapId, teamId]);
-  const map = useMemoizedSelector(selectTeamMap);
   return {
-    map
+    map: useMemoizedSelector(selectTeamMap),
+    course: useMemoizedSelector(selectTeamCurrentCourse),
   }
 }
 
 const MapViewContainer: FC = () => {
-  const { map } = useMapProps();
-  const position: LatLngExpression = { lat: 51.505, lng: -0.09 }
-  // const gpxMap = useMap();
-  if (!map) return <>Empty</>
-  // const gpx = `${API_URL}/${map.teamId}/maps/${map.id}/gpx`;
-  // new GPX(gpx, {
-  //   async: true,
-  //   marker_options: {
-  //     startIconUrl: 'pin-icon-start.png',
-  //     endIconUrl: 'pin-icon-end.png',
-  //     shadowUrl: 'pin-shadow.png'
-  //   }
-  // })
-  //   .on('loaded', (e:any) => {
-  //     var gpx = e.target;
-  //     gpxMap.fitBounds(gpx.getBounds());
-  //   })
-  //   .addTo(gpxMap);
-
-
-
+  const { map, course} = useMapProps();
+  const position: LatLngExpression = { lat: 47.218371, lng: -1.553621 }
+  if (!map) return <></>
   return (
     <ViewContainer>
       <MapDetails map={map} />
       <ContentContainer>
-        <MapContainer style={{ height: '50vh' }} center={position} zoom={13}>
+        <MapContainer style={{ height: '50vh' }} center={position} zoom={13} >
           <TileLayer
             attribution='&copy; <a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases">CyclOSM</a>'
             url="https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"
           />
-          <Marker position={position}>
-          </Marker>
+          <MyMap course={course} />
+          {/* <Polyline
+            pathOptions={{ fillColor: 'red', color: 'red', weight: 4 }}
+            positions={points}
+          /> */}
+          {/* <Marker position={course ? points[0] : position} icon={StartIcon} /> */}
+          {/* <Marker position={course ? points[points.length-1] : position} icon={EndIcon} /> */}
         </MapContainer>
-      </ContentContainer>
-      <ContentContainer>
-        Denivelé
       </ContentContainer>
     </ViewContainer>)
 }

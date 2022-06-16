@@ -1,3 +1,4 @@
+import { Track } from 'gpxparser';
 
 export interface BikeTeamState {
   entities: BikeTeamStateEntities
@@ -23,6 +24,7 @@ export interface BikeTeamStateEntitiesTeam {
   ride?: TeamRide;
   trip?: TeamTrip;
   map?: Map;
+  course?: Track;
 }
 
 export interface BikeTeamStateEntities {

@@ -1,3 +1,4 @@
+import  { Track } from 'gpxparser';
 import { BikeTeamState, Country, NavItem, Team, TeamEvent, TeamMember, TeamRide, TeamTrip, Map } from './interfaces';
 
 export function selectTeams(state: BikeTeamState): Team[] {
@@ -74,6 +75,10 @@ export function selectTeamTags(state: BikeTeamState): string[]{
 
 export function selectNbTeamPages(state: BikeTeamState): number{
   return state.entities.nbTeamPages;
+}
+
+export function selectTeamCurrentCourse(state: BikeTeamState): Track | undefined {
+  return state.entities.team.course
 }
 
 

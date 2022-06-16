@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Country, Team, TeamEvent, TeamMemberApi, TeamRide, TeamTrip, Map } from './interfaces';
 
 const API_URL = 'https://staging.biketeam.info/api';
+const URL = 'https://staging.biketeam.info';
 const DEFAULT_PAGE_SIZE = '9';
 const DEFAULT_PAGE = '0';
 
@@ -146,4 +147,14 @@ export async function getTeamTags(teamId: string): Promise<string[]> {
   };
   const { data: trip } = await axios.get(`${API_URL}/teams/${teamId}/maps/tags`, config);
   return trip;
+}
+
+export async function getXmlFile(teamId: string, mapId: string): Promise<string> {
+  // const config = {
+  //   headers: { 'Content-Type': 'application/xml' },
+  // };
+  const response = await fetch(`${URL}/${teamId}/maps/${mapId}/gpx`);
+  // eslint-disable-next-line no-console
+  // console.log(response.text());
+  return response.text();
 }

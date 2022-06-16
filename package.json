@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@raruto/leaflet-elevation": "github:Raruto/leaflet-elevation",
     "@reduxjs/toolkit": "^1.7.1",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
@@ -17,8 +18,8 @@
     "bootstrap": "^5.1.3",
     "bootstrap-icons": "^1.8.1",
     "eslint-config-prettier": "^8.3.0",
+    "gpxparser": "^3.0.8",
     "leaflet": "^1.8.0",
-    "leaflet-gpx": "^1.7.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.3",
     "prettier": "^2.5.1",
