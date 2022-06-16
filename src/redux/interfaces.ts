@@ -1,7 +1,8 @@
 
 export interface BikeTeamState {
   entities: BikeTeamStateEntities
-  ui: BikeTeamStateUi
+  ui: BikeTeamStateUi,
+  auth: BikeTeamStateAuth
 }
 
 export interface BikeTeamStateEntitiesData {
@@ -36,6 +37,12 @@ export type NavItem = 'feed' | 'rides' | 'trips' | 'maps'
 
 export interface BikeTeamStateUi {
   navitems: NavItem[]
+}
+
+export interface BikeTeamStateAuth {
+  data: AuthUser|null;
+  loading: boolean;
+  error: boolean;
 }
 
 export type TeamVisibility = 'PUBLIC' | 'PRIVATE';
@@ -180,4 +187,18 @@ export interface TeamTrip  {
   upperSpeed: number;
   meetingLocation: string;
   meetingTime: string;
+}
+
+export interface AuthUser {
+  accessToken: string;
+  refreshToken: string;
+  admin: boolean,
+  city: string|null,
+  email: string|null,
+  emailPreferences: Record<string, boolean>
+  firstName: string,
+  id: string,
+  lastName: string,
+  profileImage: string|null,
+  stravaId?: number,
 }

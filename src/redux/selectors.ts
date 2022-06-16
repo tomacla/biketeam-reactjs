@@ -1,4 +1,4 @@
-import { BikeTeamState, Country, NavItem, Team, TeamEvent, TeamMember, TeamRide, TeamTrip, Map } from './interfaces';
+import { BikeTeamState, Country, NavItem, Team, TeamEvent, TeamMember, TeamRide, TeamTrip, Map, BikeTeamStateAuth } from './interfaces';
 
 export function selectTeams(state: BikeTeamState): Team[] {
   return state.entities.teams;
@@ -76,4 +76,6 @@ export function selectNbTeamPages(state: BikeTeamState): number{
   return state.entities.nbTeamPages;
 }
 
-
+export function selectAuth(state: BikeTeamState): BikeTeamStateAuth {
+  return state.auth;
+}

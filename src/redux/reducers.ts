@@ -1,5 +1,8 @@
 import { PayloadAction } from '@reduxjs/toolkit';
+import {AUTH_STORAGE_KEY, INITIAL_BIKETEAM_STATE} from './constants';
+
 import {
+  AuthUser,
   BikeTeamState,
   Country,
   NavItem,
@@ -112,4 +115,20 @@ export function onGetTeamTagsPending(): void {}
 export function onGetTeamTagsRejected(): void {}
 export function onGetTeamTagsFullfilled(state: BikeTeamState, { payload: tags }: PayloadAction<string[]>): void {
   state.entities.team.tags = tags;
+}
+
+export function onAuthenticatePending(state: BikeTeamState): void {
+  state.auth = {...state.auth, data: null, loading: true, error: false};
+}
+export function onAuthenticateRejected(state: BikeTeamState): void {
+  state.auth = {...state.auth, loading: false, error: true};
+}
+export function onAuthenticateFullfilled(state: BikeTeamState, { payload }: PayloadAction<AuthUser>): void {
+  state.auth = {...state.auth, data: payload, loading: false, error: false};
+  localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(state.auth.data));
+}
+
+export function onLogout(state: BikeTeamState): void {
+  state.auth = INITIAL_BIKETEAM_STATE.auth;
+  localStorage.removeItem(AUTH_STORAGE_KEY);
 }

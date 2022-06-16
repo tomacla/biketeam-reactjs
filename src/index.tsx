@@ -17,6 +17,7 @@ import Rides from './components/Views/Rides';
 import Trips from './components/Views/Trips';
 import Maps from './components/Views/Maps';
 import Map from './components/Views/Map';
+import Login from './components/Views/Login';
 
 const homeState = { name: 'home', url: '/', component: Home };
 const teamsState = { name: 'teams', url: '/teams', component: Teams };
@@ -27,14 +28,26 @@ const mapsState = { name: 'maps', url: '/{teamId:[^/]*}/maps', component: Maps }
 const rideState = { name: 'ride', url: '/{teamId:[^/]*}/rides/{rideId:[^/]*}', component: Ride };
 const tripState = { name: 'trip', url: '/{teamId:[^/]*}/trips/{tripId:[^/]*}', component: Trip };
 const mapState = { name: 'map', url: '/{teamId:[^/]*}/maps/{mapId:[^/]*}', component: Map };
+const loginState = { name: 'login', url: '/login', component: Login };
 
 ReactDOM.render(
   <React.StrictMode>
     <StoreProvider>
-      <UIRouter plugins={[pushStateLocationPlugin]}
-        states={
-          [homeState, teamsState, homeTeamState, rideState, tripState, tripsState, ridesState, mapsState, mapState]
-        } >
+      <UIRouter
+        plugins={[pushStateLocationPlugin]}
+        states={[
+          homeState,
+          teamsState,
+          homeTeamState,
+          rideState,
+          tripState,
+          tripsState,
+          ridesState,
+          mapsState,
+          loginState,
+          mapState,
+        ]}
+      >
         <App />
       </UIRouter>
     </StoreProvider >

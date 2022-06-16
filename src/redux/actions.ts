@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
+  authenticate,
   getCountries,
   getTeamDetails,
   getTeamEvents,
@@ -109,3 +110,5 @@ export const getTeamMapAsync = createAsyncThunk('getTeamMap', ({ teamId, mapId }
 export const getTeamTagsAsync = createAsyncThunk('getTeamTags', ({ teamId }: { teamId: string }) =>
   getTeamTags(teamId)
 );
+
+export const authenticateAsync = createAsyncThunk('authenticate', authenticate);

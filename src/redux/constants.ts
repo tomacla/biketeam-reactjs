@@ -1,4 +1,6 @@
-import { BikeTeamState } from './interfaces';
+import {BikeTeamState} from './interfaces';
+
+export const AUTH_STORAGE_KEY = 'auth';
 
 export const INITIAL_BIKETEAM_STATE: BikeTeamState = {
   entities: {
@@ -23,5 +25,10 @@ export const INITIAL_BIKETEAM_STATE: BikeTeamState = {
   },
   ui: {
     navitems: []
+  },
+  auth: {
+    data: null,
+    loading: false,
+    error: false,
   },
 };

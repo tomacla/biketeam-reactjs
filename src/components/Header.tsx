@@ -1,10 +1,9 @@
-
 import { LinkProps } from '@uirouter/react/lib/hooks/useSref';
 import React, { FC, memo, ReactNode } from 'react';
-import { Button, Container, Nav, Navbar } from 'react-bootstrap';
+import { Button, Container, Nav, Navbar, Image } from 'react-bootstrap';
 import styled from 'styled-components';
 import { NavItem } from '../redux/interfaces';
-
+import {BikeTeamStateAuth} from '../redux/interfaces';
 
 const DefaultTitle = styled.h1`
 &:before{
@@ -62,9 +61,19 @@ const NavButton = styled(Nav.Link)`
   padding: 0;
 `
 
+const AvatarImage = styled(Image)`
+  height: 24px;
+  margin-right: 6px;
+`
+
+const DoorClosedIcon = styled.i.attrs({className: 'bi bi-door-closed'})``;
+
 interface HeaderProps {
   navItems: NavItem[];
+  auth: BikeTeamStateAuth,
+  logout: Function,
   onGoHome: LinkProps;
+  onGoLogin: LinkProps;
   onGoFeed: LinkProps;
   onGoRides: LinkProps;
   onGoTrips: LinkProps;
@@ -107,9 +116,20 @@ function toTitle(title?: string): ReactNode {
   return <Title >{title}</Title>
 }
 
-const Header: FC<HeaderProps> = (
-  { title, onGoHome, selectedTeamId, onGoFeed, onGoMaps, onGoRides, onGoTrips, onGoMainHome, navItems }
-) => {
+const Header: FC<HeaderProps> = ({
+  title,
+  auth,
+  logout,
+  onGoHome,
+  onGoMainHome,
+  onGoLogin,
+  selectedTeamId,
+  onGoFeed,
+  onGoMaps,
+  onGoRides,
+  onGoTrips,
+  navItems,
+}) => {
   return (
     <Navbar bg="light">
       <Container>
@@ -117,20 +137,30 @@ const Header: FC<HeaderProps> = (
           {toTitle(title)}
         </NavTitle>
         <Nav className="ms-auto align-items-center">
-          {
-            selectedTeamId ? (
-              <>
-                {navItems.map((navItem) => (
-                  <Nav.Link key={navItem} {...toLink(navItem, onGoHome, onGoFeed, onGoRides, onGoTrips, onGoMaps)}>
-                    {toItemTitle(navItem)}</Nav.Link>
-                ))}
-                <Link {...onGoMainHome}><HouseIcon /></Link>
-              </>
-            ) : (null)
-          }
-          <NavButton >
-            <Button variant="outline-secondary" size="sm">Connexion</Button>
-          </NavButton>
+          {selectedTeamId && (
+            <>
+              {navItems.map((navItem) => (
+                <Nav.Link key={navItem} {...toLink(navItem, onGoHome, onGoFeed, onGoRides, onGoTrips, onGoMaps)}>
+                  {toItemTitle(navItem)}</Nav.Link>
+              ))}
+              <Link {...onGoMainHome}><HouseIcon /></Link>
+            </>
+          )}
+          {auth.data ? (
+            <>
+              <NavButton>
+                <AvatarImage alt="avatar" rounded src={auth.data.profileImage ? auth.data.profileImage : 'default'} />
+                {auth.data.firstName} {auth.data.lastName}
+              </NavButton>
+              <NavButton onClick={logout}>
+                <DoorClosedIcon />
+              </NavButton>
+            </>
+          ) : (
+            <NavButton {...onGoLogin}>
+              <Button variant="outline-secondary" size="sm">Connexion</Button>
+            </NavButton>
+          )}
         </Nav>
       </Container>
     </Navbar>

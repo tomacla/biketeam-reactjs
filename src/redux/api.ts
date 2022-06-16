@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Country, Team, TeamEvent, TeamMemberApi, TeamRide, TeamTrip, Map } from './interfaces';
+import {Country, Team, TeamEvent, TeamMemberApi, TeamRide, TeamTrip, Map, AuthUser} from './interfaces';
 
 const API_URL = 'https://staging.biketeam.info/api';
 const DEFAULT_PAGE_SIZE = '9';
@@ -146,4 +146,19 @@ export async function getTeamTags(teamId: string): Promise<string[]> {
   };
   const { data: trip } = await axios.get(`${API_URL}/teams/${teamId}/maps/tags`, config);
   return trip;
+}
+
+export async function authenticate(
+  {credential, refresh = false}: {credential: string, refresh?: boolean}
+): Promise<AuthUser> {
+  const { data: token } = await axios.post(`${API_URL}/auth/${refresh ? 'refresh' : 'sso'}`, credential, {
+    headers: { 'Content-Type': 'text/plain' },
+  });
+  const { data: user } = await axios.get(`${API_URL}/auth/me`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Auth-Token': token.accessToken
+    },
+  });
+  return {...token, ...user};
 }

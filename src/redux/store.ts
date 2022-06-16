@@ -1,5 +1,7 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
+import {BikeTeamState} from './interfaces';
+import { INITIAL_BIKETEAM_STATE, AUTH_STORAGE_KEY } from './constants';
 import {
   getCountriesAsync,
   getTeamDetailsAsync,
@@ -13,9 +15,12 @@ import {
   getTeamTagsAsync,
   getTeamTripAsync,
   getTeamTripsAsync,
+  authenticateAsync,
 } from './actions';
-import { INITIAL_BIKETEAM_STATE } from './constants';
 import {
+  onAuthenticateFullfilled,
+  onAuthenticatePending,
+  onAuthenticateRejected,
   onClearTeamDetails,
   onGetCountriesFullfilled,
   onGetCountriesPending,
@@ -53,15 +58,30 @@ import {
   onGetTeamTripsFullfilled,
   onGetTeamTripsPending,
   onGetTeamTripsRejected,
+  onLogout,
 } from './reducers';
 
 const INITIAL_STATE = INITIAL_BIKETEAM_STATE;
 
+const getInitialStateWithStoredAuth = (): BikeTeamState => {
+  try {
+    const authData = JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY) || '');
+    return {
+      ...INITIAL_STATE,
+      auth: {...INITIAL_STATE.auth, data: authData}
+    }
+  } catch {
+    localStorage.removeItem(AUTH_STORAGE_KEY);
+    return INITIAL_STATE;
+  }
+}
+
 const actionsSlice = createSlice({
   name: 'actions',
-  initialState: INITIAL_STATE,
+  initialState: getInitialStateWithStoredAuth(),
   reducers: {
     clearTeamDetails: onClearTeamDetails,
+    logout: onLogout,
   },
   extraReducers: builder =>
     builder
@@ -100,7 +120,10 @@ const actionsSlice = createSlice({
       .addCase(getTeamMapAsync.rejected, onGetTeamMapRejected)
       .addCase(getTeamTagsAsync.fulfilled, onGetTeamTagsFullfilled)
       .addCase(getTeamTagsAsync.pending, onGetTeamTagsPending)
-      .addCase(getTeamTagsAsync.rejected, onGetTeamTagsRejected),
+      .addCase(getTeamTagsAsync.rejected, onGetTeamTagsRejected)
+      .addCase(authenticateAsync.fulfilled, onAuthenticateFullfilled)
+      .addCase(authenticateAsync.pending, onAuthenticatePending)
+      .addCase(authenticateAsync.rejected, onAuthenticateRejected)
 });
 
 export const actions = {
@@ -116,7 +139,8 @@ export const actions = {
   getTeamRideAsync,
   getTeamMapsAsync,
   getTeamMapAsync,
-  getTeamTagsAsync
+  getTeamTagsAsync,
+  authenticateAsync,
 };
 
 const { reducer } = actionsSlice;
